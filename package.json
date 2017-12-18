@@ -1,0 +1,29 @@
+{
+  "name": "MADE-collection-viewer",
+  "version": "1.0.0",
+  "description": "Viewer for the MADE's game collection",
+  "main": "server.js",
+  "scripts": {
+    "server": "node server.js",
+    "client": "node scripts/start-client.js",
+    "start": "concurrently \"nodemon server.js\" \"npm run client\"",
+    "build": "node scripts/build.js",
+    "seed": "node scripts/seedDB.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "installDeps": "yarn && cd client && yarn"
+  },
+  "author": "MADEcollection",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.7",
+    "request": "^2.83.0"
+  },
+  "repository": "git@github.com:MADEcollection/MADE-Collection-Viewer.git"
+}
