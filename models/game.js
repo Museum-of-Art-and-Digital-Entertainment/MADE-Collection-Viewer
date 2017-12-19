@@ -30,7 +30,7 @@ const GameSchema = new Schema({
 	players: {
 		type: String,
 	},
-	coOp: {
+	coop: {
 		type: Boolean,
 	},
 	publisher: {
@@ -39,6 +39,11 @@ const GameSchema = new Schema({
 	developer: {
 		type: String,
 	},
+	genres: [
+		{
+			type: String
+		}
+	],
 	boxartFront: {
 		type: String,
 		default: "http://thegamesdb.net/banners/"

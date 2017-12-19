@@ -13,6 +13,12 @@ const PlatformSchema = new Schema({
 	},
 	alias: {
 		type: String,
+	},
+	collected: {
+		type: Boolean,
+	},
+	copies: {
+		type: Number,
 	}
 }, { timestamps: true });
 

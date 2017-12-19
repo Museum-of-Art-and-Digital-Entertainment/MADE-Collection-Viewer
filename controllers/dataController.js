@@ -27,10 +27,9 @@ module.exports = {
 						}
 						platforms[i] = platform;
 					}
-					Promise.all(platforms.map(platform => {
-						db.Platform.findOneAndUpdate({id: platform.id}, platform, {upsert: true, new: true})
-							.then(res => {})
-							.catch(err => reject(err));
+					return Promise.all(platforms.map(platform => {
+						return db.Platform.findOneAndUpdate({id: platform.id}, platform, {upsert: true, new: true})
+							.catch(err => console.log(err));
 					}))
 						.then(res => resolve(platforms))
 						.catch(err => reject(err));
@@ -53,14 +52,13 @@ module.exports = {
 					let game = {
 						id: parseInt(games[i].id._text),
 						title: games[i].GameTitle._text,
-						release: moment.utc(games[i].ReleaseDate._text, "MM/DD/YYYY")
+						release: moment.utc(games[i].ReleaseDate._text, ["MM/DD/YYYY", "YYYY"])
 					}
 					games[i] = game;
 				}
-				Promise.all(games.map(game => {
-					db.Game.findOneAndUpdate({id: game.id}, game, {upsert: true, new: true})
-						.then(res => {})
-						.catch(err => reject(err));
+				return Promise.all(games.map(game => {
+					return db.Game.findOneAndUpdate({id: game.id}, game, {upsert: true, new: true})
+						.catch(err => console.log(err));
 				}))
 					.then(res => resolve(games))
 					.catch(err => reject(err));
@@ -68,15 +66,62 @@ module.exports = {
 		});
 	},
 
-	getGameData: function(game) {
+	getGameData: function(search) {
 		return new Promise((resolve, reject) => {
-			request("http://thegamesdb.net/api/GetGame.php?id="+game.id, function(err, response, xml) {
+			request("http://thegamesdb.net/api/GetGame.php?id="+search.id, function(err, response, xml) {
 				if (err) {
 					reject(err);
 				}
 				const result = convert.xml2js(xml, {compact: true, ignoreDeclaration: true});
-				console.log(result);
+				console.log(JSON.stringify(result,null,2));
 				resolve('Success');
+				const gameRes = result.Data.Game;
+				let game = {
+					id: gameRes.id._text,
+					title: gameRes.GameTitle._text,
+					platformId: gameRes.PlatformId._text,
+					platform: gameRes.Platform._text,
+					release: (gameRes.ReleaseDate)? moment.utc(gameRes.ReleaseDate._text, ["MM/DD/YYYY", "YYYY"]): null,
+					esrb: (gameRes.ESRB)? gameRes.ESRB._text: null,
+					overview: (gameRes.Overview)? gameRes.Overview._text: null,
+					publisher: (gameRes.Publisher)? gameRes.Publisher._text: null,
+					developer: (gameRes.Developer)? gameRes.Developer._text: null,
+					players: (gameRes.Players)? gameRes.Players._text: null,
+				}
+
+				if(gameRes.Images) {
+					if(gameRes.Images.boxart) {
+						gameRes.Images.boxart.map((image, i) => {
+							if(image._attributes.side === 'back'){
+								game.boxartBack = "http://thegamesdb.net/banners/" + gameRes.Images.boxart[i]._text;
+							}
+							if(image._attributes.side === 'front'){
+								game.boxartFront = "http://thegamesdb.net/banners/" + gameRes.Images.boxart[i]._text;
+							}
+						});
+					};
+				};
+
+				if (gameRes.Genres) {
+					if (Array.isArray(gameRes.Genres)) {
+						game.genres = gameRes.Genres.map(genre => genre._text);
+					} else {
+						game.genres = [gameRes.Genres.genre._text];
+					}
+				}
+
+				if(gameRes.Similar) {
+					if (Array.isArray(gameRes.Similar.Game)) {
+						game.similar = gameRes.Similar.Game.map(similar => similar.id._text)
+					} else {
+						game.similar = [gameRes.Similar.Game.id._text]
+					}
+				}
+
+
+
+				console.log(game);
+				resolve(game);
 			})
 		})
 	},
@@ -85,14 +130,12 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			this.getPlatformsGamesDB()
 				.then(platforms => {
-					console.log(platforms[58]);
-					let count = platforms.length;
 					console.log("Getting games by platform");
 					return this.getGamesByPlatform(platforms[58]);
 				})
 				.then(games => {
 					console.log("Getting game data");
-					return this.getGameData(games[224]);
+					return this.getGameData({id: 398});
 				})
 				.then(res => resolve('Success'))
 				.catch(err => {
