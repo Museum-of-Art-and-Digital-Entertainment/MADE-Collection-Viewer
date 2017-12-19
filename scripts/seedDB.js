@@ -17,7 +17,6 @@ controllers.data.getGamesDB()
 		process.exit();
 	})
 	.catch(err => {
-		console.log(err);
 		process.exit();
 	});
 

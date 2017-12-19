@@ -60,6 +60,10 @@ const GameSchema = new Schema({
 	collected: {
 		type: Boolean,
 		default: false
+	},
+	popularity: {
+		type: Number,
+		default: 0
 	}
 }, { timestamps: true });
 
