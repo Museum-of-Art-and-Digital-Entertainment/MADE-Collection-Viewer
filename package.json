@@ -23,7 +23,8 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.15.4",
     "mongoose": "^4.11.7",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "xml-js": "^1.6.1"
   },
   "repository": "git@github.com:MADEcollection/MADE-Collection-Viewer.git"
 }
