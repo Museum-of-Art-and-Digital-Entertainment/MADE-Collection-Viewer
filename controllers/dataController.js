@@ -26,17 +26,24 @@ module.exports = {
 							platform.alias = platforms[i].name._text.toLowerCase().replace(" ", "-");
 						}
 						platforms[i] = platform;
-						db.Platform.findOneAndUpdate({id: platform.id}, platform, {upsert: true, new: true})
-							.then(res => {
-								count--;
-								if (count === 0) {
-									resolve(platforms);
-								}
-							})
-							.catch(err => {
-									reject(err);
-							});
+						// db.Platform.findOneAndUpdate({id: platform.id}, platform, {upsert: true, new: true})
+						// 	.then(res => {
+						// 		count--;
+						// 		if (count === 0) {
+						// 			resolve(platforms);
+						// 		}
+						// 	})
+						// 	.catch(err => {
+						// 			reject(err);
+						// 	});
 					}
+					Promise.all(platforms.map(platform => {
+						db.Platform.findOneAndUpdate({id: platform.id}, platform, {upsert: true, new: true})
+							.then(res => {})
+							.catch(err => reject(err));
+					}))
+						.then(res => resolve(platforms))
+						.catch(err => reject(err));
 				});
 		});
 	},
@@ -59,16 +66,6 @@ module.exports = {
 						release: moment.utc(games[i].ReleaseDate._text, "MM/DD/YYYY")
 					}
 					games[i] = game;
-					// db.Game.findOneAndUpdate({id: game.id}, game, {upsert: true, new: true})
-					// 	.then(res => {
-					// 		count--;
-					// 		if (count === 0) {
-					// 			resolve(games);
-					// 		}
-					// 	})
-					// 	.catch(err => {
-					// 		reject(err); 
-					// 	});
 				}
 				Promise.all(games.map(game => {
 					db.Game.findOneAndUpdate({id: game.id}, game, {upsert: true, new: true})
