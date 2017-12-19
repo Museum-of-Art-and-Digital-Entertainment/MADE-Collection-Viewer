@@ -10,6 +10,7 @@ module.exports = {
 					if (err) {
 						reject(err);
 					}
+
 					const result = convert.xml2js(xml, {compact: true, ignoreDeclaration: true});
 					let platforms = result.Data.Platforms.Platform;
 					const size = platforms.length;
@@ -39,29 +40,41 @@ module.exports = {
 
 	getGamesByPlatform: function(platform) {
 		return new Promise((resolve, reject) => {
-			request("http://thegamesdb.net/api/PlatformGames.php?platform="+platform.name, function(err, response, xml) {
+			request("http://thegamesdb.net/api/GetPlatformGames.php?platform="+platform.id, function(err, response, xml) {
 				if (err) {
 					reject(err);
 				}
+				console.log(`Looking for ${platform.name} games.`);
+				console.log(xml);
 				const result = convert.xml2js(xml, {compact: true, ignoreDeclaration: true});
 				let games = result.Data.Game;
-				const size = games.length;
-				console.log(`Number of ${platform.name} games found is`, size);
-				let count = size;
-				for (let i = 0; i < size; i++) {
-					let game = {
-						id: parseInt(games[i].id._text),
-						title: games[i].GameTitle._text,
-						release: moment.utc(games[i].ReleaseDate._text, ["MM/DD/YYYY", "YYYY"])
+				if(Array.isArray(games)) {
+					const size = games.length;
+					console.log(`Number of ${platform.name} games found is`, size);
+					let count = size;
+					for (let i = 0; i < size; i++) {
+						let game = {
+							id: parseInt(games[i].id._text),
+							title: games[i].GameTitle._text,
+							release: (games[i].ReleaseDate)? moment.utc(games[i].ReleaseDate._text, ["MM/DD/YYYY", "YYYY"]) : null,
+						}
+						games[i] = game;
 					}
-					games[i] = game;
+					return Promise.all(games.map(game => {
+						return db.Game.findOneAndUpdate({id: game.id}, game, {upsert: true, new: true})
+							.catch(err => console.log(err));
+					}))
+						.then(res => resolve(games))
+						.catch(err => reject(err));
+				} else if (games) {
+					let game = {
+						id: parseInt(games.id._text),
+
+					}
+				} else {
+					resolve();
 				}
-				return Promise.all(games.map(game => {
-					return db.Game.findOneAndUpdate({id: game.id}, game, {upsert: true, new: true})
-						.catch(err => console.log(err));
-				}))
-					.then(res => resolve(games))
-					.catch(err => reject(err));
+				
 			});
 		});
 	},
@@ -73,7 +86,6 @@ module.exports = {
 					reject(err);
 				}
 				const result = convert.xml2js(xml, {compact: true, ignoreDeclaration: true});
-				console.log(JSON.stringify(result,null,2));
 				resolve('Success');
 				const gameRes = result.Data.Game;
 				let game = {
@@ -118,10 +130,9 @@ module.exports = {
 					}
 				}
 
-
-
-				console.log(game);
-				resolve(game);
+				db.Game.findOneAndUpdate({id: game.id}, game)
+					.then(res => resolve(game))
+					.catch(err => console.log(err));
 			})
 		})
 	},
@@ -131,13 +142,11 @@ module.exports = {
 			this.getPlatformsGamesDB()
 				.then(platforms => {
 					console.log("Getting games by platform");
-					return this.getGamesByPlatform(platforms[58]);
+					return Promise.all(platforms.map((platform, i) => {
+						return this.getGamesByPlatform(platform);
+					}));
 				})
-				.then(games => {
-					console.log("Getting game data");
-					return this.getGameData({id: 398});
-				})
-				.then(res => resolve('Success'))
+				.then(res => resolve(res))
 				.catch(err => {
 					reject(err); 
 				});
