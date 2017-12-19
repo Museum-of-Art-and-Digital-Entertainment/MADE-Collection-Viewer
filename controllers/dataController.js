@@ -26,16 +26,6 @@ module.exports = {
 							platform.alias = platforms[i].name._text.toLowerCase().replace(" ", "-");
 						}
 						platforms[i] = platform;
-						// db.Platform.findOneAndUpdate({id: platform.id}, platform, {upsert: true, new: true})
-						// 	.then(res => {
-						// 		count--;
-						// 		if (count === 0) {
-						// 			resolve(platforms);
-						// 		}
-						// 	})
-						// 	.catch(err => {
-						// 			reject(err);
-						// 	});
 					}
 					Promise.all(platforms.map(platform => {
 						db.Platform.findOneAndUpdate({id: platform.id}, platform, {upsert: true, new: true})
