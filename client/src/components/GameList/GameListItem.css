@@ -1,0 +1,22 @@
+.gameList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/*.game {
+  display: block;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  text-align: center;
+  padding: 0 10px;
+  width: 100px;
+  height: 100px;
+  /*background-color: #263238;*/
+  /*color: #1DE9B6;*/
+  /*opacity: 0;*/
+  /*visibility: hidden;*/

@@ -1,6 +1,11 @@
 // Include the Main React Dependencies
 import ReactDOM from "react-dom";
 
+// Bootstrap with React stuff 
+import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap-theme.css';
+
+
 // Grabs the Routes
 import routes from "./config/routes";
 

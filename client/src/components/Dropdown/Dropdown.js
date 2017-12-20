@@ -1,19 +1,38 @@
-import React from "react";
+import React from 'react';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-// This component lets us use a bootstrap drop-down element without worrying about class names
-// or manually wrapping the input with a form-group div
-// All of the props passed to this component are spread onto the input element
-const Dropdown = props => (
-  <div className="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Platform
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="#">Playstation</a>
-      <a class="dropdown-item" href="#">Nitendo</a>
-      <a class="dropdown-item" href="#">Xbox</a>
-    </div>
-  </div>
-);
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
 
-export default Dropdown;
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      dropdownOpen: false
+    };
+  }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    })
+  }
+
+  render() {
+    return (
+      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+        <DropdownToggle caret>
+          Platform
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem >Nitendo</DropdownItem>
+          <DropdownItem >Playstation</DropdownItem>
+          <DropdownItem>Xbox</DropdownItem>
+          {/*<DropdownItem divider />*/}
+          <DropdownItem>Gamecube</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    );
+  }
+}
+
+export default Example; 
