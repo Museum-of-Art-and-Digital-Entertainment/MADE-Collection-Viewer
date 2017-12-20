@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const db = require("../models");
 const controllers = require("../controllers");
 mongoose.Promise = global.Promise;
+require('dotenv').config();
 
 
 mongoose.connect(

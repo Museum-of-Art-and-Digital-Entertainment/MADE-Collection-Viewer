@@ -1,10 +1,27 @@
 const db = require("../models");
 const request = require("request");
-const convert = require('xml-js');
 const parseString = require('xml2js').parseString;
 const moment = require('moment');
 // Controller for handling the collection 
 module.exports = {
+  getGiantBombGames: function(offset = 58600) {
+    const options = {
+      url: `https://www.giantbomb.com/api/games/?api_key=${process.env.GIANTBOMB_KEY}&format=JSON&offset=${offset}`,
+      headers: {
+        'User-Agent': process.env.USER_AGENT
+      }
+    };
+    return new Promise((resolve, reject) => {
+    	options.url+='&limit=1';
+      request(options, function(err, response, json) {
+        if (err) reject(err);
+        games = JSON.parse(json);
+        console.log(JSON.stringify(games,null,2));
+        resolve('Success');
+      });
+    });
+  },
+
   getPlatformsGamesDB: function() {
     return new Promise((resolve, reject) => {
       request("http://thegamesdb.net/api/GetPlatformsList.php", function(err, response, xml) {
@@ -67,6 +84,8 @@ module.exports = {
                   id: parseInt(games[i].id[0]),
                   title: games[i].GameTitle[0],
                   release: (games[i].ReleaseDate) ? moment.utc(games[i].ReleaseDate[0], ["MM/DD/YYYY", "YYYY"]) : null,
+		              platformId: platform.id,
+		              platform: platform.name,
                 }
                 games[i] = game;
               }

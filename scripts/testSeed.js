@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const db = require("../models");
 const controllers = require("../controllers");
 mongoose.Promise = global.Promise;
+require('dotenv').config();
 
 
 mongoose.connect(
@@ -42,33 +43,11 @@ mongoose.connect(
 // 		process.exit();
 // 	});
 
-var wait = 
-    ms => new Promise(
-        r => setTimeout(r, ms)
-    );
-
-var repeat = 
-    (ms, func) => new Promise(
-        r => (
-            intervalID = setInterval(func, ms), 
-            wait(ms).then(r)
-        )
-    );
-
-var myfunction = 
-    () => new Promise(
-        r => r(console.log('repeating...'))
-    );
-
-var stopAfter5Secs = 
-    () => new Promise(
-        r => r(setTimeout(() => { 
-                    clearInterval(intervalID);
-                    console.log('repeat end');
-                    process.exit(); 
-               } , 60000))
-    );
-
-repeat(5000, () => Promise.all([myfunction()])) // 1000 miliseconds = 1 second
-.then(stopAfter5Secs())  // starts timer to end repetitions
-.then(console.log('repeat start')); // informs that all actions were started correctly and we are waiting for them to finish
+controllers.data.getGiantBombGames()
+    .then(res => {
+        process.exit();
+    })
+    .catch(err => {
+        console.log(err);
+        process.exit();
+    })

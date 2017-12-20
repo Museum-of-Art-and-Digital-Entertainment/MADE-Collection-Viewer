@@ -6,6 +6,7 @@ const db = require("./models");
 const controllers = require("./controllers");
 const app = express();
 const PORT = process.env.PORT || 3001;
+require('dotenv').config();
 
 // Configure body parser for AJAX requests
 app.use(bodyParser.urlencoded({ extended: false }));
