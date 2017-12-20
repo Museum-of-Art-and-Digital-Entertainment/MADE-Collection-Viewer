@@ -8,7 +8,10 @@
     "client": "node scripts/start-client.js",
     "start": "concurrently \"nodemon server.js\" \"npm run client\"",
     "build": "node scripts/build.js",
-    "seed": "node scripts/seedDB.js",
+    "seed": "node scripts/seedDB.js -platforms; node scripts/seedDB.js -platforms; node scripts/seedDB.js -gameDetails",
+    "seed-platforms": "node scripts/seedDB.js -platforms",
+    "seed-list": "node scripts/seedDB.js -gameList",
+    "seed-details": "node scripts/seedDB.js -gameDetails",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-seed": "node scripts/testSeed.js",
     "installDeps": "yarn && cd client && yarn"
@@ -26,7 +29,8 @@
     "moment": "^2.20.1",
     "mongoose": "^4.11.7",
     "request": "^2.83.0",
-    "xml-js": "^1.6.1"
+    "xml-js": "^1.6.1",
+    "xml2js": "^0.4.19"
   },
   "repository": "git@github.com:MADEcollection/MADE-Collection-Viewer.git"
 }

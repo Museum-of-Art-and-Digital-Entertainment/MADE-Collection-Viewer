@@ -19,6 +19,10 @@ const PlatformSchema = new Schema({
 	},
 	copies: {
 		type: Number,
+	},
+	downloaded: {
+		type: Boolean,
+		default: false,
 	}
 }, { timestamps: true });
 

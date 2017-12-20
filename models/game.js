@@ -69,6 +69,10 @@ const GameSchema = new Schema({
 	popularity: {
 		type: Number,
 		default: 0
+	},
+	downloaded: {
+		type: Boolean,
+		default: false
 	}
 }, { timestamps: true });
 
