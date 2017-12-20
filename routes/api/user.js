@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 // Require controller modules
-const userController = require('../controllers/userController');
+const userController = require('../../controllers/userController');
 
 /* GET catalog home page. */
 router.get('/', userController.index);

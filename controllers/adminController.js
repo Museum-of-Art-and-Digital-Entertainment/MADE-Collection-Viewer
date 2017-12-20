@@ -1,59 +1,69 @@
+const escapeRegex = require('../Utils').escapeRegex;
 const db = require("../models");
 
 // Controller for handling the collection
 module.exports = {
 
-  index = (req, res) => {
+  index: (req, res) => {
       res.send('NOT IMPLEMENTED: Admin Home Page');
   },
 
   // Signup Admin
-  signinGet = (req, res) => {
+  signinGet: (req, res) => {
       res.send('NOT IMPLEMENTED: Admin signin');
   },
 
   // Signup Admin
-  signupGet = (req, res) => {
+  signupGet: (req, res) => {
       res.send('NOT IMPLEMENTED: Admin  signup: ');
   },
 
   // Signup Admin
-  signinPost = (req, res) => {
+  signinPost: (req, res) => {
       res.send('NOT IMPLEMENTED: Admin signin');
   },
 
   // Signup Admin
-  signupPost = (req, res) => {
+  signupPost: (req, res) => {
       res.send('NOT IMPLEMENTED: Admin  signup: ');
   },
 
-  // get all games
-  gamesGet = (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin  signup: ');
+  // get all games with or without search criteria
+  getAllGames: (req, res) => {
+    let query = {};
+    if (req.query.title) {
+       const regex = new RegExp(escapeRegex(req.query.title), 'gi');
+       query.title = regex;
+    }
+    db.Game.find(query)
+        .then(foundGames => {
+            res.json(foundGames);
+        })
+        .catch(err => console.log(err));
   },
 
   // hit api and update database.
-  updatedbPost = (req, res) => {
+  updateDB: (req, res) => {
       res.send('NOT IMPLEMENTED: updatedb');
   },
 
   // create a game
-  createPost = (req, res) => {
+  createGame: (req, res) => {
       res.send('NOT IMPLEMENTED: create game ');
   },
 
   // get one game for update/delete
-  gamesGet = (req, res) => {
+  getGame: (req, res) => {
       res.send('NOT IMPLEMENTED: get game ',+ req.params.id);
   },
 
   // update a game
-  updatePost = (req, res) => {
+  updateGame: (req, res) => {
       res.send('NOT IMPLEMENTED: update a game',+ req.params.id);
   },
 
   // delete a game
-  deletePost = (req, res) => {
+  deleteGame: (req, res) => {
       res.send('NOT IMPLEMENTED: delete a game ',+ req.params.id);
   },
 

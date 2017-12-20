@@ -46,11 +46,9 @@ const GameSchema = new Schema({
 	],
 	boxartFront: {
 		type: String,
-		default: "http://thegamesdb.net/banners/"
 	},
 	boxartBack: {
 		type: String,
-		default: "http://thegamesdb.net/banners/"
 	},
 	similar: [
 		{
