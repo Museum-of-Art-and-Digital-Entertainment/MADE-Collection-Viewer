@@ -27,6 +27,7 @@ switch (process.argv[2]) {
 		break;
 	default:
 		console.log("Use -all -platforms -gameList or -gameDetails as third argument");
+		process.exit();
 		break;
 }
 
@@ -34,15 +35,17 @@ function all() {
 	controllers.data.getGamesDB()
 		.then(result => {
 			// console.log(JSON.stringify(result, null, 2));
-			console.log("Result lenghth in seedDB.js", result.length);
+			console.log("Result length in seedDB.js", result.length);
 			process.exit();
 		})
 		.catch(err => {
-			process.exit();
+			console.log(err);
+			process.exit(1);
 		});
 }
 
 function platforms() {
+	console.log('Looking for platforms from TheGamesDB.net.');
 	controllers.data.getPlatformsGamesDB()
 		.then(result => {
 			console.log(`Found ${result.length} platforms and added them to the database.`);
@@ -50,38 +53,39 @@ function platforms() {
 		})
 		.catch(err => {
 			console.log(err);
-			process.exit();
+			process.exit(1);
 		});
 }
 
 const wait = ms => new Promise((resolve) => setTimeout(resolve, ms));
 
-const recusiveGameList = async function(platforms, errorTolerance) {
+const recusiveGameList = async function(platforms, errorTolerance, gamesFound = 0) {
 	console.log(`There are ${platforms.length} left to download`);
 	if (!platforms.length) {
-		console.log("Got all platforms")
+		console.log(`Got all platforms and ${gamesFound} games.`);
 		process.exit();
 	} else if (errorTolerance === 0) {
 		console.log("Too many errors. Quitting, try again using 'yarn seed-list'.");
-		process.exit();
+		process.exit(1);
 	} else {
 		const platform = platforms.pop();
-		console.log(`Waiting to download game list for ${platform.name}`)
-		await wait(1000);
+		// console.log(`Waiting to download game list for ${platform.name}`)
+		// await wait(1000);
 		console.log(`Looking for ${platform.name} games`);
 		controllers.data.getGamesByPlatform(platform)
 			.then(res => {
 				console.log(`Got ${res.length} games inserted into the database`);
-				recusiveGameList(platforms, errorTolerance);
+				recusiveGameList(platforms, errorTolerance, gamesFound+=res.length);
 			})
 			.catch(err => {
 				platforms.push(platform);
-				recusiveGameList(platforms, errorTolerance--);
+				recusiveGameList(platforms, errorTolerance--, gamesFound);
 			})
 	}
 }
 
 function gameList() {
+	console.log("Going to download list of games from TheGamesDB.net.")
 	db.Platform.find({downloaded: false})
 		.then(platforms => {
 			console.log(`Found ${platforms.length} platforms where the games haven't been downloaded`)
@@ -89,7 +93,7 @@ function gameList() {
 		})
 		.catch(err => {
 			console.log(err);
-			process.exit();
+			process.exit(1);
 		});
 }
 
@@ -107,7 +111,7 @@ const recursiveGameDetials = async function(games, errorTolerance) {
 			})
 	} else if (errorTolerance === 0) {
 		console.log("Too many erros. Quitting, try again using 'yarn seed-details'.");
-		process.exit();
+		process.exit(1);
 	} else {
 		const game = games.pop();
 		// console.log(`Waiting to download game list for ${game.title}`);
@@ -133,7 +137,7 @@ function gameDetails() {
 		})
 		.catch(err => {
 			console.log(err);
-			process.exit();
+			process.exit(1);
 		});
 }
 
