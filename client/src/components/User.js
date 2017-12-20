@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import Input from "./Input";
-// import Dropdown from "./Dropdown";
-// import Button from "./Button";
 import './GameList/GameListItem.css';
 import { GameList, GameListItem } from "./GameList";
-// import { Container, Row, Col } from "./Grid";
 import { Button, Container, Row, Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 class User extends Component {
@@ -13,7 +10,10 @@ class User extends Component {
       {title: 'Mario Kart', platform: 'Nitendo', year:2017, multiplayer: true},
       {title: 'NBA 2K18', platform: 'Playstation', year:2017, multiplayer: true},
       {title: 'COD', platform: 'XBox', year:2017, multiplayer: true},
-      {title: 'Crash', platform: 'Playstation', year:2005, multiplayer: false}
+      {title: 'Crash', platform: 'Playstation', year:2005, multiplayer: false},
+      {title: 'Zelda', platform: 'Nitendo', year:2017, multiplayer: false},
+      {title: 'BattleFront', platform: 'Playstation', year:2005, multiplayer: false},
+      {title: 'Madden', platform: 'Xbox', year:2010, multiplayer: true}
     ],
     titleSearch: "",
     platformSearch: "",
@@ -115,14 +115,15 @@ class User extends Component {
               </form>
             </Col>
           </Row>
-          <Row>
-            <Col>
+          {/*<Row>*/}
+            {/*<Col>*/}
               {!this.state.games.length ? (
                 <h1 className="text-center">No Games to Display</h1>
               ) : (
-                <div>
+                <div className="gameList">
                   {this.state.games.map(game => {
                     return (
+                      <Col >
                       <GameListItem
                         key={game.title}
                         title={game.title}
@@ -130,12 +131,13 @@ class User extends Component {
                         platform={game.platform}
                         boxart={game.boxart}
                       />
+                      </Col>
                     );
                   })}
                 </div>
               )}
-            </Col>
-          </Row>
+            {/*</Col>*/}
+          {/*</Row>*/}
         </Container>
       </div>
     );

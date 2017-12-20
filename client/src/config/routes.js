@@ -15,7 +15,7 @@ import Admin from "../components/Admin";
 
 // Export the Routes
 export default (
-  <Router>
+  <Router> 
     <div>
       <Switch>
         <Route exact path="/" component={User} />

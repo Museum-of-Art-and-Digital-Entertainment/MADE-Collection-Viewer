@@ -1,22 +1,22 @@
+/*Giving the container that holds the "games" a property of flex*/
 .gameList {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-around;
   width: 100%;
+  background-color: grey;
 }
 
-/*.game {
-  display: block;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  text-align: center;
-  padding: 0 10px;
-  width: 100px;
-  height: 100px;
-  /*background-color: #263238;*/
-  /*color: #1DE9B6;*/
-  /*opacity: 0;*/
-  /*visibility: hidden;*/
+/*When games are added to the gameList container they will diplay in rows*/
+.game {
+	border: black;
+	border-style: solid;
+	width: 200px;
+	height: 200px;
+	padding: 0 5px;
+	justify-content: center;
+	text-align: center;
+	margin: 10px 0;
+}
+
