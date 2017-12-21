@@ -3,17 +3,17 @@ const db = require("../models");
 // Controller for handling all of the games
 module.exports = {
 
-  index = (req, res) => {
+  index: (req, res) => {
       res.send('NOT IMPLEMENTED: Site Home Page');
   },
 
-  // Display list of all books
-  searchGet = (req, res) => {
+  // Get list of searched games
+  searchGet: (req, res) => {
       res.send('NOT IMPLEMENTED: Search Game');
   },
 
-  // Display detail page for a specific book
-  gameGet = (req, res) => {
+  // Get detail for a specific game
+  gameGet: (req, res) => {
       res.send('NOT IMPLEMENTED: Game detail: ' + req.params.id);
   }
 

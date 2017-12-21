@@ -1,39 +1,41 @@
 const router = require("express").Router();
 // Require controller modules
-const adminController = require('../controllers/adminController');
+const controllers = require('../../controllers');
 
 /* GET admin home page. */
-router.get('/admin', adminController.index);
+router.get('/', controllers.admin.index);
 
 /* GET admin home page - to authenticate */
-router.get('/admin/signin', adminController.signinGet);
+router.get('/signin', controllers.admin.signinGet);
 
 /* GET admin home page - to authenticate */
-router.get('/admin/signup', adminController.signupGet);
+router.get('/signup', controllers.admin.signupGet);
 
 /* POST admin home page - to authenticate */
-router.post('/admin/signin', adminController.signinPost);
+router.post('/signin', controllers.admin.signinPost);
 
 /* POST admin home page - to authenticate */
-router.post('/admin/signup', adminController.signupPost);
+router.post('/signup', controllers.admin.signupPost);
 
-/* GET get all games */
-router.get('/admin/games', adminController.gamesGet);
+/* GET all games with or without fuzzy search query*/
+/* Search Example /api/admin/games/?title=[title to search for]*/
+/* Or send query object with title paramater */
+router.get('/games', controllers.admin.getAllGames);
 
 /* POST hit api and update database. */
-router.post('/admin/game/updatedb', adminController.updatedbPost);
+router.post('/game/updatedb', controllers.admin.updateDB);
 
 /* POST create a game */
-router.post('/admin/games/create', adminController.createPost);
+router.post('/games/create', controllers.admin.createGame);
 
 /* GET get a game to update/delete */
-router.get('/admin/game/:id', adminController.gameGet);
+router.get('/game/:id', controllers.admin.getGame);
 
 /* POST update a game */
-router.post('/admin/game/:id/update', adminController.updatePost);
+router.post('/game/:id/update', controllers.admin.updateGame);
 
 /* POST delete a game */
-router.post('/admin/game/:id/delete', adminController.deletePost);
+router.post('/game/:id/delete', controllers.admin.deleteGame);
 
 
 module.exports = router;

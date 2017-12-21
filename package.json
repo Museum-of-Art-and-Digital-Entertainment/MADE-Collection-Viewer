@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^3.5.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.14.0"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
