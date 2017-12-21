@@ -1,1 +1,1 @@
-export * from "./AdminListItem";
+export { default } from './AdminListItem';

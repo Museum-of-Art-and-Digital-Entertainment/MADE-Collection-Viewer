@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import API from '../utils/adminAPI'
 import { Container } from 'reactstrap';
+import AdminListItem from './AdminList';
+import SearchBar from './SearchBar';
 
 class Admin extends Component {
 	state = {
@@ -9,6 +11,13 @@ class Admin extends Component {
 		limit: 50,
 		title: ""
 	};
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
 
 	loadGames = () => {
 		let query = {
@@ -28,14 +37,17 @@ class Admin extends Component {
 	};
 
 	render () {
-		return <Container>
+		return (
+			<Container>
 				<h1>Admin Page</h1>
+				<SearchBar inputHandler={this.handleInputChange} title={this.state.title} name='title' />
 				<div id="games">
 					{this.state.games.map((game, i) => (
-						<p key={game.id}>{game.title}</p>
+						<AdminListItem key={game.id} {...game}/>
 	        ))}
 				</div>
 			</Container>
+		)
 	};
 };
 

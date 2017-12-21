@@ -35,6 +35,12 @@ module.exports = {
        const regex = new RegExp(escapeRegex(req.query.title), 'gi');
        query.title = regex;
     }
+    if (req.query.id) {
+      query.id = escapeRegex(id);
+    }
+    if (req.query._id) {
+      query._id = _id; 
+    }
     const limit = parseInt(req.query.limit) || 50;
     const offset = parseInt(req.query.offset) || 0;
     db.Game.find(query)
@@ -44,6 +50,23 @@ module.exports = {
             res.json(foundGames);
         })
         .catch(err => console.log(err));
+  },
+
+  // get all platforms
+  getPlatforms: (req, res) => {
+    let query = {};
+    if (req.query.name) {
+      query.name = req.query.name; 
+    }
+    if (req.query.id) {
+      query.id = req.query.title;
+    }
+    db.Platform.find(query)
+      .then(foundPlatforms => res.json(foundPlatforms))
+      .catch(err => {
+        console.log(err)
+        res.sendStatus(400); 
+      });
   },
 
   // hit api and update database.

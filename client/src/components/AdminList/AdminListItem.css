@@ -1,0 +1,33 @@
+.list-item {
+	margin: 16px;
+}
+
+.list-info {
+
+}
+
+.lis-btns {
+
+}
+
+.collected {
+ 	background-color: green;
+}
+
+.uncollected {
+	background-color: red;
+}
+
+.dark {
+  color: #464a4e;
+  background-color: #e7e8eadd;
+  border-color: #dddfe2dd;
+  border: 1px solid transparent;
+}
+
+.light {
+  color: #818182;
+  background-color: #fefefedd;
+  border-color: #fdfdfedd;
+  border: 1px solid transparent;
+}

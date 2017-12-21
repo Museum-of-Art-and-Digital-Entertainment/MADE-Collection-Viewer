@@ -22,6 +22,9 @@ router.post('/signup', controllers.admin.signupPost);
 /* Or send query object with title paramater */
 router.get('/games', controllers.admin.getAllGames);
 
+/* GET all games with or without a strict name or id search*/
+router.get('/platforms', controllers.admin.getPlatforms);
+
 /* POST hit api and update database. */
 router.post('/game/updatedb', controllers.admin.updateDB);
 
