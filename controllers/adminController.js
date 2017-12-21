@@ -35,7 +35,11 @@ module.exports = {
        const regex = new RegExp(escapeRegex(req.query.title), 'gi');
        query.title = regex;
     }
+    const limit = parseInt(req.query.limit) || 50;
+    const offset = parseInt(req.query.offset) || 0;
     db.Game.find(query)
+        .skip(offset)
+        .limit(limit)
         .then(foundGames => {
             res.json(foundGames);
         })
