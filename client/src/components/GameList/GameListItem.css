@@ -6,15 +6,18 @@
   justify-content: space-around;
   width: 100%;
   background-color: grey;
+  background-image: url("shelf.png");
+
 }
 
 /*When games are added to the gameList container they will diplay in rows*/
 .game {
 	border: black;
 	border-style: solid;
-	width: 200px;
-	height: 200px;
-	padding: 0 5px;
+	width: 130px;
+	height: 130px;
+	/*font-size: 50px;*/
+	padding: 5px 5px;
 	justify-content: center;
 	text-align: center;
 	margin: 10px 0;

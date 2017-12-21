@@ -13,6 +13,8 @@ class User extends Component {
       {title: 'Crash', platform: 'Playstation', year:2005, multiplayer: false},
       {title: 'Zelda', platform: 'Nitendo', year:2017, multiplayer: false},
       {title: 'BattleFront', platform: 'Playstation', year:2005, multiplayer: false},
+      {title: 'Madden', platform: 'Xbox', year:2010, multiplayer: true},
+      {title: 'Madden', platform: 'Xbox', year:2010, multiplayer: true},
       {title: 'Madden', platform: 'Xbox', year:2010, multiplayer: true}
     ],
     titleSearch: "",
@@ -125,7 +127,7 @@ class User extends Component {
                     return (
                       <Col >
                       <GameListItem
-                        key={game.title}
+                        key={game._id}
                         title={game.title}
                         description={game.description}
                         platform={game.platform}
