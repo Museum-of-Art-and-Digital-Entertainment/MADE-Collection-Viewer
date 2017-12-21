@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import Input from "./Input";
 import API from '../utils/adminAPI'
-import { Button, Container, Row, Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 class Admin extends Component {
 	state = {
@@ -33,7 +32,7 @@ class Admin extends Component {
 				<h1>Admin Page</h1>
 				<div id="games">
 					{this.state.games.map((game, i) => (
-						<p>{game.title}</p>
+						<p key={game.id}>{game.title}</p>
 	        ))}
 				</div>
 			</Container>

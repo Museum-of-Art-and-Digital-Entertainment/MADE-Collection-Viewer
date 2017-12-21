@@ -6,6 +6,6 @@ export default {
 		if(typeof arguments[0] === Object) {
 			options = arguments[0];
 		}
-		return axios.get('/api/admin/games/');
+		return axios.get('/api/admin/games/', options);
 	},
 }
