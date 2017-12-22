@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Row, Col } from 'reactstrap';
 import { Input } from 'reactstrap';
 import { Button } from 'reactstrap';
-import API from '../../utils/adminAPI'
 
 export default class SearchBar extends Component {
 
@@ -11,7 +10,7 @@ export default class SearchBar extends Component {
     this.state = {
     	platforms: []
     };
-  	API.getPlatforms()
+  	props.platformQuery()
 			.then(res => this.setState({ platforms: res.data }))
   		.catch(err => console.log(err));
   }
@@ -23,18 +22,20 @@ export default class SearchBar extends Component {
 
 	render() {
 		return (
-			<div>
-				<Row>
-					<Col md='5' xs='12'>
+			<div className='searchbar'>
+				<Row className='search-bar-row'>
+					<Col className='col-search-title' md='5' xs='12'>
 						<Input 
+							className="title-seach-input"
 							placeholder='Search Title'
 							onChange={this.props.inputHandler}
 							value={this.props.title}
 							name={this.props.name}
 						/>
 					</Col>
-					<Col md='5' xs='9'>
+					<Col className='col-search-platform' md='5' xs='9'>
 						<Input 
+							className="plaform-dropdown"
 							type='select' 
 							onChange = {this.props.inputHandler} 
 							name='platform' 
@@ -47,8 +48,8 @@ export default class SearchBar extends Component {
 							))}
 						</Input>
 					</Col>
-					<Col md='2' xs='3'>
-						<Button onClick={this.props.buttonHandler}>Search</Button>
+					<Col className='col-search-btn' md='2' xs='3'>
+						<Button className="search-btn" onClick={this.props.buttonHandler}>Search</Button>
 					</Col>
 				</Row>
 			</div>
