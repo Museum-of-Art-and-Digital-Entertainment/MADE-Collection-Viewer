@@ -1,6 +1,28 @@
 const escapeRegex = require('../Utils').escapeRegex;
 const db = require("../models");
 
+const makeQuery = ask => {
+  let query={}
+  if (ask.title) {
+     const regex = new RegExp(escapeRegex(ask.title), 'gi');
+     query.title = regex;
+  }
+  if (ask.platform) {
+    if (parseInt(ask.platform)) {
+      query.platformId = parseInt(ask.platform);
+    } else {
+      query.platform = parseInt(ask.platform);
+    }
+  }
+  if (ask.id) {
+    query.id = escapeRegex(ask.id);
+  }
+  if (ask._id) {
+    query._id = ask._id; 
+  }
+  return query;
+};
+
 // Controller for handling the collection
 module.exports = {
 
@@ -30,26 +52,24 @@ module.exports = {
 
   // get all games with or without search criteria
   getAllGames: (req, res) => {
-    let query = {};
-    if (req.query.title) {
-       const regex = new RegExp(escapeRegex(req.query.title), 'gi');
-       query.title = regex;
-    }
-    if (req.query.id) {
-      query.id = escapeRegex(id);
-    }
-    if (req.query._id) {
-      query._id = _id; 
-    }
-    const limit = parseInt(req.query.limit) || 50;
+    let query = makeQuery(req.query);
+    const limit = parseInt(req.query.limit) || 500;
     const offset = parseInt(req.query.offset) || 0;
     db.Game.find(query)
+        .sort({title:1})
         .skip(offset)
         .limit(limit)
         .then(foundGames => {
             res.json(foundGames);
         })
         .catch(err => console.log(err));
+  },
+
+  getGameCount: (req, res) => {
+    let query = makeQuery(req.query);
+    db.Game.find(query).count()
+      .then(count => res.json(count))
+      .catch(err => console.log(err));
   },
 
   // get all platforms

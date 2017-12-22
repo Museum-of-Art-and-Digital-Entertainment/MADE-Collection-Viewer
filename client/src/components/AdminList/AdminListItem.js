@@ -27,7 +27,7 @@ class AdminListItem extends Component {
   };
 
   handleRemoveCopies = event => {
-  	if (event.target.value >= 1 || event.target.value === '') {
+  	if (event.target.value <= -1 || event.target.value === '') {
   		this.handleInputChange(event);
   	}
   };

@@ -22,6 +22,8 @@ router.post('/signup', controllers.admin.signupPost);
 /* Or send query object with title paramater */
 router.get('/games', controllers.admin.getAllGames);
 
+router.get('/games/count', controllers.admin.getGameCount);
+
 /* GET all games with or without a strict name or id search*/
 router.get('/platforms', controllers.admin.getPlatforms);
 

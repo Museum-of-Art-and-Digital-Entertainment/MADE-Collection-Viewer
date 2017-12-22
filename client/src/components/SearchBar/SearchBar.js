@@ -34,7 +34,13 @@ export default class SearchBar extends Component {
 						/>
 					</Col>
 					<Col md='5' xs='9'>
-						<Input type='select' onChange = {this.props.inputHandler} name='platform' height='100%'>
+						<Input 
+							type='select' 
+							onChange = {this.props.inputHandler} 
+							name='platform' 
+							value={this.props.platform}
+							style={{height:'100%'}}
+						>
 							<option value=''>Platform</option>
 							{this.state.platforms.map((platform, i) => (
 								<option key={platform.id} value={platform.id}>{platform.name}</option>
@@ -42,7 +48,7 @@ export default class SearchBar extends Component {
 						</Input>
 					</Col>
 					<Col md='2' xs='3'>
-						<Button>Search</Button>
+						<Button onClick={this.props.buttonHandler}>Search</Button>
 					</Col>
 				</Row>
 			</div>
