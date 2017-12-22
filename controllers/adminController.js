@@ -20,6 +20,9 @@ const makeQuery = ask => {
   if (ask._id) {
     query._id = ask._id; 
   }
+  if (ask.collected) {
+    query.collected = ask.collected;
+  }
   return query;
 };
 
@@ -53,7 +56,7 @@ module.exports = {
   // get all games with or without search criteria
   getAllGames: (req, res) => {
     let query = makeQuery(req.query);
-    const limit = parseInt(req.query.limit) || 500;
+    const limit = parseInt(req.query.limit) || 50;
     const offset = parseInt(req.query.offset) || 0;
     db.Game.find(query)
         .sort({title:1})
