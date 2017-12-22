@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import API from '../utils/adminAPI'
+import API from '../utils/adminAPI';
 import { Container, Row, Col } from 'reactstrap';
 import { Button, ButtonGroup } from 'reactstrap';
 import { Input } from 'reactstrap';
@@ -13,7 +13,7 @@ class Admin extends Component {
 		limit: 50,
 		title: '',
 		platform: '',
-		sort: [],
+		sort: '',
 		count: 0,
 		query: this.props.match.params || {}
 	};
@@ -36,6 +36,9 @@ class Admin extends Component {
 		if (this.state.platform !== '') {
 			query.platform = this.state.platform;
 		}
+		if (this.state.sort !== '') {
+			query.sort = this.state.sort.split(',');
+		}
 		console.log(query);
 		API.getGames(query)
 			.then(res => {
@@ -52,7 +55,7 @@ class Admin extends Component {
 	};
 
 	searchGames = event => {
-		this.loadGames();
+		this.setState({offset: 0}, this.loadGames);
 	};
 
 	changePage = event => {
@@ -96,18 +99,18 @@ class Admin extends Component {
 						<div>
 							<Input 
 							type='select' 
-							onChange = {this.inputHandler} 
+							onChange = {this.handleInputChange} 
 							name='sort'
 							value={this.state.sort}
 							style={{height:'100%'}}
 						>
-							<option value={[]}>Sort</option>
-							<option value={['title', 1]}>Title Descending</option>
-							<option value={['title', -1]}>Title Ascending</option>
-							<option value={['platform', 1]}>Platform Descending</option>
-							<option value={['platform', -1]}>Platform Ascending</option>
-							<option value={['release', 1]}>Release Descending</option>
-							<option value={['release', -1]}>Release Ascending</option>
+							<option value={''}>Sort</option>
+							<option value={'title, 1'}>Title Descending</option>
+							<option value={'title, -1'}>Title Ascending</option>
+							<option value={'platform, 1'}>Platform Descending</option>
+							<option value={'platform, -1'}>Platform Ascending</option>
+							<option value={'release, 1'}>Release Descending</option>
+							<option value={'release, -1'}>Release Ascending</option>
 						</Input>	
 						</div>
 					</Col>

@@ -1,5 +1,6 @@
 const escapeRegex = require('../Utils').escapeRegex;
 const db = require("../models");
+const data = require('./dataController.js');
 
 const makeQuery = ask => {
   let query={}
@@ -58,8 +59,9 @@ module.exports = {
     let query = makeQuery(req.query);
     const limit = parseInt(req.query.limit) || 50;
     const offset = parseInt(req.query.offset) || 0;
+    const sort = (req.query.sort)? {[req.query.sort[0]]: parseInt(req.query.sort[1])}: {title: 1}
     db.Game.find(query)
-        .sort({title:1})
+        .sort(sort)
         .skip(offset)
         .limit(limit)
         .then(foundGames => {
@@ -97,9 +99,22 @@ module.exports = {
       res.send('NOT IMPLEMENTED: updatedb');
   },
 
+  // 
+  downloadGame: (req, res) => {
+    data.getGameData(req.params)
+      .then(game => {
+        console.log('downloaded', game);
+        res.json(game);
+      })
+      .catch(err => res.message(err.message).sendStatus(400));
+  },
+
   // create a game
   createGame: (req, res) => {
-      res.send('NOT IMPLEMENTED: create game ');
+      const game = new db.Game(req.body);
+      game.save()
+        .then(game => res.json(game))
+        .catch(err => res.message(err.message).sendStatus(400));
   },
 
   // get one game for update/delete
@@ -109,7 +124,9 @@ module.exports = {
 
   // update a game
   updateGame: (req, res) => {
-      res.send('NOT IMPLEMENTED: update a game',+ req.params.id);
+      db.Game.findOneAndUpdate({id: req.params.id}, req.body, { new: true })
+        .then(game => res.json(game))
+        .catch(err => res.message(err.message).sendStatus(400));
   },
 
   // delete a game
