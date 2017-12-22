@@ -3,6 +3,7 @@ import axios from "axios";
 export default {
   // Gets all books
   searchGet: function(options = {}) {
+  	options.collected = true;
     return axios.get("/api/user/search/", { params:options });
   },
   // Gets the book with the given id
