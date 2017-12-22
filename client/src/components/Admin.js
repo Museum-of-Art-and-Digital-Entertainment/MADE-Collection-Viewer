@@ -75,6 +75,7 @@ class Admin extends Component {
 				<SearchBar 
 					inputHandler={this.handleInputChange} 
 					buttonHandler={this.searchGames} 
+					platformQuery= {API.getPlatforms}
 					title={this.state.title} 
 					platform={this.state.platform}
 					name='title' 
@@ -86,6 +87,9 @@ class Admin extends Component {
 			        <Button onClick={this.incrementPage} value={-1}>{'<<'}</Button>{' '}
 			        <Button onClick={this.incrementPage} value={1}>{'>>'}</Button>{' '}
 			        <Button onClick={this.changePage} value={Math.floor(this.state.count/this.state.limit)}>{'>|'}</Button>
+			      </ButtonGroup>
+			      <ButtonGroup>
+
 			      </ButtonGroup>
 					</Col>
 					<Col md='3' xs='12'>
