@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-// import API from "../../utils/API";
+import API from "../utils/API";
 import { Container, Row, Col, Jumbotron } from 'reactstrap';
 
 
@@ -8,13 +8,13 @@ class Detail extends Component {
   state = {
     game: {}
   };
-  // When this component mounts, grab the book with the _id of this.props.match.params.id
-  // e.g. localhost:3000/books/599dcb67f0f16317844583fc
-  // componentDidMount() {
-  //   API.getGame(this.props.match.params.id)
-  //     .then(res => this.setState({ game: res.data }))
-  //     .catch(err => console.log(err));
-  // }
+  //When this component mounts, grab the game with the _id of this.props.match.params.id
+  //e.g. localhost:3000/game/599dcb67f0f16317844583fc
+  componentDidMount() {
+    API.getGame(this.props.match.params.id)
+      .then(res => this.setState({ game: res.data }))
+      .catch(err => console.log(err));
+  }
 
   render() {
     return (

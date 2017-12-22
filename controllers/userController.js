@@ -9,12 +9,21 @@ module.exports = {
 
   // Get list of searched games
   searchGet: (req, res) => {
-      res.send('NOT IMPLEMENTED: Search Game');
+    db.Game
+    console.log("_______");
+      console.log("request",req)
+      .find(req.query)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+      // res.send('NOT IMPLEMENTED: Search Game');
   },
 
   // Get detail for a specific game
   gameGet: (req, res) => {
-      res.send('NOT IMPLEMENTED: Game detail: ' + req.params.id);
+    db.Game
+      .findById(req.params.id)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+      // res.send('NOT IMPLEMENTED: Game detail: ' + req.params.id);
   }
-
 };

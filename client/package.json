@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "axios": "^0.17.1",
     "bootstrap": "3",
     "react": "^16.2.0",
     "react-bootstrap": "^0.31.5",

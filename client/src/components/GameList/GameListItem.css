@@ -6,7 +6,7 @@
   justify-content: space-around;
   width: 100%;
   background-color: grey;
-  background-image: url("shelf.png");
+  background-image: url("../../utils/Shelf-dark.png");
 
 }
 
@@ -14,12 +14,15 @@
 .game {
 	border: black;
 	border-style: solid;
-	width: 130px;
-	height: 130px;
+	width: 150px;
+	height: 150px;
 	/*font-size: 50px;*/
 	padding: 5px 5px;
 	justify-content: center;
 	text-align: center;
-	margin: 10px 0;
+	margin: 20px 0;
 }
 
+.firstRow {
+	margin: 10px 0;
+}

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Input from "./Input";
+import API from "../utils/API";
 import './GameList/GameListItem.css';
 import { GameList, GameListItem } from "./GameList";
-import { Button, Container, Row, Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Button, Container, Row, Col, UncontrolledDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 class User extends Component {
   state = {
@@ -17,12 +18,30 @@ class User extends Component {
       {title: 'Madden', platform: 'Xbox', year:2010, multiplayer: true},
       {title: 'Madden', platform: 'Xbox', year:2010, multiplayer: true}
     ],
-    titleSearch: "",
-    platformSearch: "",
-    yearSearch: "",
-    multiplayerSearch: ""
+    title: "",
+    platform: "",
+    year: "",
+    multiplayer: ""
 
-  };
+  }
+
+  checkState = () => {
+    let searchObj = {};
+    if (this.state.title.length > 0) {
+      searchObj.title = this.state.title;
+    }
+    else if (this.state.platform.length > 0) {
+      searchObj.platform = this.state.platform;
+    }
+    else if (this.state.year.length > 0) {
+      searchObj.year = this.state.year;
+    }
+    else if (this.state.platform.multiplayer > 0) {
+      searchObj.multiplayer = this.state.multiplayer;
+    }
+    console.log(searchObj)
+    return searchObj;
+  }
 
   handleInputChange = event => {
     // Destructure the name and value properties off of event.target
@@ -31,31 +50,33 @@ class User extends Component {
     this.setState({
       [name]: value
     });
-  };
+    console.log("INPUT CHANGE", this.state)
+  }
 
   handleFormSubmit = event => {
-    // When the form is submitted, prevent its default behavior, get recipes update the recipes state
+    // When the form is submitted, prevent its default behavior, get games update the gamesearch state
     event.preventDefault();
-    // API.getGames(this.state.gameSearch)
-      // .then(res => this.setState({ games: res.data }))
-      // .catch(err => console.log(err));
-  };
-
+    console.log("FORM SUBMIT");
+    console.log(this.state)
+    API.searchGet(this.checkState())
+    .then(res => this.setState({games: res.data, title: "", platform: "", year: "", multiplayer: ""}))
+    .catch(err => console.log(err));    
+  }
 
 
   render() {
     return (
       <div>
         <Container fluid={true}>
-          <Row >
+          <Row className="firstRow">
             <Col md="12">
               <form>
                 <Container>
                   <Row>
                     <Col md="5">
                       <Input
-                        name="gameSearch"
-                        value={this.state.titleSearch}
+                        name="title"
+                        value={this.state.title}
                         onChange={this.handleInputChange}
                         placeholder="Search Game Title"
                       />
@@ -68,50 +89,45 @@ class User extends Component {
                       >
                         Search
                       </Button>
-                    {/*<Col>*/}
-                      <UncontrolledDropdown>
-                        <DropdownToggle caret>
-                          Platform
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem>Nitendo</DropdownItem>
-                          <DropdownItem>Playstation</DropdownItem>
-                          <DropdownItem>XBox</DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    {/*</Col>*/}
-                    {/*<Col>*/}
-                      <UncontrolledDropdown>
-                        <DropdownToggle caret>
-                          Year
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem>1950-1980</DropdownItem>
-                          <DropdownItem>1980-2000</DropdownItem>
-                          <DropdownItem>2000-2010</DropdownItem>
-                          <DropdownItem>2010-present</DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    {/*</Col>*/}
-                    {/*<Col>*/}
-                      <UncontrolledDropdown>
-                        <DropdownToggle caret>
-                          Multiplayer
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem>Yes</DropdownItem>
-                          <DropdownItem>No</DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    {/*</Col>*/}
-                      <Button
-                        onClick={this.handleFormSubmit}
-                        type="success"
-                        className="input-lg"
-                        color="info"
-                      >
-                        Advanced Search
-                      </Button>
+                    {/*Platform dropdown selection*/}
+                    <select
+                      name="platform"
+                      value={this.state.platform}
+                      onChange={this.handleInputChange}
+                    >
+                      <option value="Nitendo">Nitendo</option>
+                      <option value="Playstation">Playstation</option>
+                      <option value="XBox">XBox</option>
+                    </select>
+                    {/*Year dropdown selection*/}
+                    <select
+                      name="year"
+                      value={this.state.year}
+                      onChange={this.handleInputChange}
+                    >
+                      <option value="1970">...1970</option>
+                      <option value="1990">1970-1990</option>
+                      <option value="2000">1990-2000</option>
+                      <option value="2010">2000-2010</option>
+                      <option value="2017">2010-2017</option>
+                    </select>
+                    {/*multiplayer dropdown selection*/}
+                    <select
+                      name="multiplayer"
+                      value={this.state.multiplayer}
+                      onChange={this.handleInputChange}
+                    >
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                    <Button
+                      onClick={this.handleFormSubmit}
+                      type="success"
+                      className="input-lg"
+                      color="info"
+                    >
+                      Advanced Search
+                    </Button>
                   </Row>
                 </Container>
               </form>
