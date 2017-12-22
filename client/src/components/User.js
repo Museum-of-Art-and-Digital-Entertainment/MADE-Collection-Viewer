@@ -68,6 +68,7 @@ class User extends Component {
                 title={this.state.title} 
                 platform={this.state.platform}
                 name='title' 
+                platformQuery={API.getPlatforms}
             /> 
           </Row>
             {!this.state.games.length ? (
