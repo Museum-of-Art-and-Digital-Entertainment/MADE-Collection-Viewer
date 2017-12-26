@@ -1,15 +1,15 @@
 const router = require("express").Router();
 
 // Require controller modules
-const userController = require('../../controllers/userController');
+const controllers = require('../../controllers');
 
 /* GET catalog home page. */
-router.get('/', userController.index);
+router.get('/', controllers.user.index);
 
 /* GET searched/filtered games. */
-router.get('/search', userController.searchGet);
+router.get('/search', controllers.admin.getAllGames);
 
 /* GET game details. */
-router.get('/game/:id', userController.gameGet);
+router.get('/game/:id', controllers.user.gameGet);
 
 module.exports = router;
