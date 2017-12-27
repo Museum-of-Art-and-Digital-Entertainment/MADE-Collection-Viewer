@@ -4,10 +4,12 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
-  width: 100%;
+  width: 90%;
+  margin-left: 90px;
+  height: 100vh;
   background-color: grey;
   background-image: url("../../utils/Shelf-dark.png");
-
+  border-radius: 5px;
 }
 
 /*When games are added to the gameList container they will diplay in rows*/
@@ -21,8 +23,4 @@
 	justify-content: center;
 	text-align: center;
 	margin: 20px 0;
-}
-
-.firstRow {
-	margin: 10px 0;
 }
