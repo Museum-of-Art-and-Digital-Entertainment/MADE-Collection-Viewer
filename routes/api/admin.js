@@ -36,8 +36,11 @@ router.post('/games/create', controllers.admin.createGame);
 /* GET get a game to update/delete */
 router.get('/game/:id', controllers.admin.getGame);
 
+/* GET the details on a game from thegamesdb.net api */
+router.get('/game/download/:id', controllers.admin.downloadGame);
+
 /* POST update a game */
-router.post('/game/:id/update', controllers.admin.updateGame);
+router.put('/game/update/:id', controllers.admin.updateGame);
 
 /* POST delete a game */
 router.post('/game/:id/delete', controllers.admin.deleteGame);

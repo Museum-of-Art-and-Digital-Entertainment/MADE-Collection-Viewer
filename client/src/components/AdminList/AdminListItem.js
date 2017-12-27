@@ -3,7 +3,8 @@ import {  Row, Col } from 'reactstrap';
 import { InputGroup, InputGroupButton, Input } from 'reactstrap';
 import { Button } from 'reactstrap';
 import moment from 'moment';
-import './AdminListItem.css'
+import './AdminListItem.css';
+import API from '../../utils/adminAPI';
 
 // AdminListItem renders info for a single game 
 class AdminListItem extends Component {
@@ -11,6 +12,8 @@ class AdminListItem extends Component {
 		addCopies: 1,
 		removeCopies: -1,
 		download: this.props.downloaded,
+		collected: this.props.collected,
+		copies: this.props.copies
 	};
 
   handleInputChange = event => {
@@ -33,12 +36,43 @@ class AdminListItem extends Component {
   };
 
   submitAddCopies = event => {
-
+  	const game = {
+  		id: this.props.id,
+  		copies: this.props.copies + this.state.addCopies,
+  		collected: true
+  	};
+  	this.update(game);
   };
 
   submitRemoveCopies = event => {
-
+  	if (this.state.copies) {
+	  	const game = {
+	  		id: this.props.id,
+	  		copies: this.state.copies + this.state.removeCopies,
+	  	};
+	  	if (game.copies <= 0) {
+	  		game.collected = false;
+	  		if (game.copies < 0) {
+	  			game.copies = 0;
+	  		}
+	  	}
+  		this.update(game);
+	  }
   };
+
+  update = game => {
+  	API.updateGame(game)
+  		.then(res => this.setState({collected: res.data.collected, copies: res.data.copies}))
+  		.catch(err => console.log(err));
+  	if (!this.state.download) {
+  		API.downloadDetails(game.id)
+				.then(res => {
+					console.log(res.data.downloaded);
+					this.setState({download: res.data.downloaded}, () => console.log(this.state));
+				})
+				.catch(err => console.log(err));
+  	}
+  }
 
 
 
@@ -46,7 +80,7 @@ class AdminListItem extends Component {
     return (
 	    <div>
 	    	<Row className='list-item'>
-	    		<Col md="12" sm="9" className={`list-info ${(this.props.collected)? ' collected': ' uncollected'}`}>
+	    		<Col md="12" sm="9" className={`list-info ${(this.state.collected)? ' collected': ' uncollected'}`}>
 	    			<Row>
 	    				<Col md="5" sm="12" xs="12" className='light'>
 	    					<h6>Title</h6>
@@ -62,7 +96,7 @@ class AdminListItem extends Component {
 	    				</Col>
 	    				<Col md="2" sm="12" xs="12" className='dark'>
 	    					<h6>Copies</h6>
-	    					<p>{this.props.copies}</p>
+	    					<p>{this.state.copies}</p>
 	    				</Col>
 	    			</Row>
 	    		</Col>
@@ -76,7 +110,7 @@ class AdminListItem extends Component {
 					        	name='addCopies' 
 					        	onChange={this.handleAddCopies}
 					        	step='1'/>
-					        <InputGroupButton onClick={this.addCopies}>+</InputGroupButton>
+					        <InputGroupButton onClick={this.submitAddCopies}>+</InputGroupButton>
 					      </InputGroup>
 					     </Col>
 					     <Col md='3' sm='12' xs='12'>
@@ -87,14 +121,14 @@ class AdminListItem extends Component {
 					        	name='removeCopies' 
 					        	onChange={this.handleRemoveCopies}
 					        	step='1'/>
-					        <InputGroupButton onClick={this.removeCopies}>-</InputGroupButton>
+					        <InputGroupButton onClick={this.submitRemoveCopies}>-</InputGroupButton>
 					      </InputGroup>
 					     </Col>
 					     <Col md='3' sm='12' xs='12'>
 					      <Button onClick={this.updateGame}>Update</Button>
 					     </Col>
 					     <Col md='3' sm='12' xs='12'>
-					      <h4>{(this.props.downloaded)? "Details Collected": "Details Needed"}</h4>
+					      <h4>{(this.state.download)? "Details Collected": "Details Needed"}</h4>
 					     </Col>
 	    			</Row>
 	    		</Col>

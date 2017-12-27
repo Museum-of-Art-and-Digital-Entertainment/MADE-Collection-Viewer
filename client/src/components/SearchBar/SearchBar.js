@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Row, Col } from 'reactstrap';
 import { Input } from 'reactstrap';
 import { Button } from 'reactstrap';
+import './SearchBar.css'
 
 export default class SearchBar extends Component {
 
@@ -14,11 +15,6 @@ export default class SearchBar extends Component {
 			.then(res => this.setState({ platforms: res.data }))
   		.catch(err => console.log(err));
   }
-
-  componentDidMount() {
-	};	
-
-
 
 	render() {
 		return (

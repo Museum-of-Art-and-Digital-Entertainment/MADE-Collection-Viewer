@@ -9,5 +9,11 @@ export default {
 	},
 	getCount: function(options = {}) {
 		return axios.get('/api/admin/games/count', { params: options });
+	},
+	updateGame: function(game) {
+		return axios.put('/api/admin/game/update/' + game.id, game );
+	},
+	downloadDetails: function(id) {
+		return axios.get('/api/admin/game/download/' + id); 
 	}
 }
