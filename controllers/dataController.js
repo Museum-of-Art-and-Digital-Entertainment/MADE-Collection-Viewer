@@ -178,8 +178,6 @@ module.exports = {
                 game.similar = [gameRes.Similar[0].Game.id[0]]
               }
             }
-            // console.log(game);
-            // resolve(game);
             db.Game.findOneAndUpdate({ id: game.id }, game)
               .then(res => resolve(game))
               .catch(err => console.log(err));
