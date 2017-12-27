@@ -125,7 +125,7 @@ class AdminListItem extends Component {
 					      </InputGroup>
 					     </Col>
 					     <Col md='3' sm='12' xs='12'>
-					      <Button onClick={this.updateGame}>Update</Button>
+					      <a href={"/admin/game/" + this.props.id}><Button>Update</Button></a>
 					     </Col>
 					     <Col md='3' sm='12' xs='12'>
 					      <h4>{(this.state.download)? "Details Collected": "Details Needed"}</h4>
