@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import API from '../utils/adminAPI';
 import { Container, Row, Col } from 'reactstrap';
-import { Button, ButtonGroup } from 'reactstrap';
+// import { Button, ButtonGroup } from 'reactstrap';
 import { Input } from 'reactstrap';
 import AdminListItem from './AdminList';
 import SearchBar from './SearchBar';
+import PageControl from './PageControl';
 
 class Admin extends Component {
 	state = {
@@ -15,6 +16,8 @@ class Admin extends Component {
 		platform: '',
 		sort: '',
 		count: 0,
+		page: 1,
+		lastPage: 1,
 		query: this.props.match.params || {}
 	};
 
@@ -23,6 +26,12 @@ class Admin extends Component {
     this.setState({
       [name]: value
     });
+  };
+
+  handlePageInput = event => {
+  	if ((event.target.value >= 1 && event.target.value <= this.state.lastPage) || event.target.value === '') {
+  		this.handleInputChange(event);
+  	}
   };
 
 	loadGames = () => {
@@ -49,23 +58,26 @@ class Admin extends Component {
 		API.getCount(query)
 			.then(res => {
 				console.log(res.data);
-				this.setState({ count: res.data })
+				this.setState({ count: res.data, lastPage: Math.ceil(res.data/this.state.limit) })
 			})
 			.catch(err => console.log(err));
 	};
 
 	searchGames = event => {
-		this.setState({offset: 0}, this.loadGames);
+		this.setState({offset: 0, page: 1}, this.loadGames);
 	};
 
 	changePage = event => {
-		this.setState({offset: event.target.value * this.state.limit}, this.loadGames);
+		if (event.target.value !== '') {
+			this.setState({offset: (event.target.value - 1) * this.state.limit}, this.loadGames);
+		}
 	};
 
 	incrementPage = event => {
-		const increment = this.state.offset + (this.state.limit * event.target.value);
+		const change = parseInt(event.target.value);
+		const increment = this.state.offset + (this.state.limit * change);
 		if (increment > 0 && increment < this.state.count)
-			this.setState({offset: increment}, this.loadGames);
+			this.setState({offset: increment, page: parseInt(this.state.page) + change}, this.loadGames);
 	};
 
 	componentDidMount() {
@@ -85,15 +97,13 @@ class Admin extends Component {
 				/>
 				<Row>
 					<Col md='9' xs='12'>
-			      <ButtonGroup>
-			        <Button onClick={this.changePage} value={0}>{'|<'}</Button>{' '}
-			        <Button onClick={this.incrementPage} value={-1}>{'<<'}</Button>{' '}
-			        <Button onClick={this.incrementPage} value={1}>{'>>'}</Button>{' '}
-			        <Button onClick={this.changePage} value={Math.floor(this.state.count/this.state.limit)}>{'>|'}</Button>
-			      </ButtonGroup>
-			      <ButtonGroup>
-
-			      </ButtonGroup>
+						<PageControl
+							changePage={this.changePage}
+							incrementPage={this.incrementPage}
+							lastPage={this.state.lastPage}
+							page={this.state.page}
+							inputHandler={this.handlePageInput}
+						/>
 					</Col>
 					<Col md='3' xs='12'>
 						<div>
@@ -120,6 +130,17 @@ class Admin extends Component {
 						<AdminListItem key={game.id} {...game}/>
 	        ))}
 				</div>
+				<Row>
+					<Col md='9' xs='12'>
+						<PageControl
+							changePage={this.changePage}
+							incrementPage={this.incrementPage}
+							lastPage={this.state.lastPage}
+							page={this.state.page}
+							inputHandler={this.handlePageInput}
+						/>
+					</Col>
+				</Row>
 			</Container>
 		)
 	};
