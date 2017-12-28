@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import { Row, Col } from 'reactstrap';
 import { Input } from 'reactstrap';
 import { Button } from 'reactstrap';
-<<<<<<< HEAD
-import './SearchBar.css';
-=======
-import './SearchBar.css'
->>>>>>> master
+
 
 export default class SearchBar extends Component {
 
@@ -20,12 +16,7 @@ export default class SearchBar extends Component {
   		.catch(err => console.log(err));
   }
 
-<<<<<<< HEAD
-  componentDidMount() {
-	};	
 
-=======
->>>>>>> master
 	render() {
 		return (
 			<div className='searchbar'>
