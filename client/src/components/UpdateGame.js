@@ -168,12 +168,20 @@ class UpdateGame extends Component {
 									<img src={this.state.boxartFront} style={{'maxWidth': '100%'}} alt={this.state.title + ' box art front'}/>
 									<p>Box Art Front</p>
 								</div>
+								<FormGroup>
+				          <Label for="boxartFrontInput">Box Art Front Cover URL</Label>
+				          <Input onChange={this.handleInputChange} type="text" name="boxartFront" id="boxartFrontInput" value={this.state.boxartFront} />
+				        </FormGroup>
 							</Col>
 							<Col xs='6' sm='6'>
 								<div>
 									<img src={this.state.boxartBack} style={{'maxWidth': '100%'}}  alt={this.state.title + ' box art front'}/>
 									<p>Box Art Back</p>
 								</div>
+								<FormGroup>
+				          <Label for="boxartBackInput">Box Art Back Cover URL</Label>
+				          <Input onChange={this.handleInputChange} type="text" name="boxartBack" id="boxartBackInput" value={this.state.boxartBack} />
+				        </FormGroup>
 							</Col>
 						</Row>
 					</Col>

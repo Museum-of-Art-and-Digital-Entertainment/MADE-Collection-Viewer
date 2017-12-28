@@ -38,9 +38,10 @@ class AdminListItem extends Component {
   submitAddCopies = event => {
   	const game = {
   		id: this.props.id,
-  		copies: this.props.copies + this.state.addCopies,
+  		copies: parseInt(this.state.copies, 10) + parseInt(this.state.addCopies, 10),
   		collected: true
   	};
+  	console.log(game);
   	this.update(game);
   };
 
@@ -48,8 +49,9 @@ class AdminListItem extends Component {
   	if (this.state.copies) {
 	  	const game = {
 	  		id: this.props.id,
-	  		copies: this.state.copies + this.state.removeCopies,
+	  		copies: parseInt(this.state.copies, 10) + parseInt(this.state.removeCopies, 10),
 	  	};
+	  	console.log(game);
 	  	if (game.copies <= 0) {
 	  		game.collected = false;
 	  		if (game.copies < 0) {
@@ -62,7 +64,10 @@ class AdminListItem extends Component {
 
   update = game => {
   	API.updateGame(game)
-  		.then(res => this.setState({collected: res.data.collected, copies: res.data.copies}))
+  		.then(res => {
+  			console.log(res.data);
+  			this.setState({collected: res.data.collected, copies: res.data.copies});
+  		})
   		.catch(err => console.log(err));
   	if (!this.state.download) {
   		API.downloadDetails(game.id)

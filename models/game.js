@@ -7,9 +7,11 @@ const GameSchema = new Schema({
 		type: Number,
 		index: true,
 		unique: true,
+		required: true
 	},
 	title: {
 		type: String,
+		default: ''
 	},
 	platformId: {
 		type: Number,
@@ -17,27 +19,35 @@ const GameSchema = new Schema({
 	},
 	platform: {
 		type: String,
+		default: ''
 	},
 	release: {
 		type: Date,
+		default: undefined
 	},
 	overview: {
 		type: String,
+		default: ''
 	},
 	esrb: {
 		type: String,
+		default: ''
 	},
 	players: {
 		type: String,
+		default: ''
 	},
 	coop: {
 		type: Boolean,
+		default: ''
 	},
 	publisher: {
 		type: String,
+		default: ''
 	},
 	developer: {
 		type: String,
+		default: ''
 	},
 	genres: [
 		{
@@ -46,9 +56,11 @@ const GameSchema = new Schema({
 	],
 	boxartFront: {
 		type: String,
+		default: ''
 	},
 	boxartBack: {
 		type: String,
+		default: ''
 	},
 	similar: [
 		{
