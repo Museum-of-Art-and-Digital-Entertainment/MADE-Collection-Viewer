@@ -58,10 +58,17 @@ class UpdateGame extends Component {
   handleWholeNumber = event => {
   	const { name, value } = event.target;
   	let num = (value >= 0)? parseInt(value, 10) : 0;
-  	this.setState( {
+  	this.setState({
   		[name]: num
   	});
-  }
+  };
+
+  handleCheckedChange = event => {
+  	const { name, checked } = event.target;
+  	this.setState({
+  		[name]: checked
+  	});
+  };
 
 	loadGame = () => {
 		API.getGames({id:this.props.match.params.id})
@@ -70,6 +77,16 @@ class UpdateGame extends Component {
 			})
 			.catch(err => console.log(err));
 	};
+
+	submitUpdate = event => {
+		let game = this.state;
+		game.genres = game.genres.map(g => g.trim());
+		API.updateGame(game)
+			.then(res => {
+				this.setState({...res.data});
+			})
+			.catch(err => console.log(err));
+	}
 
 	render () {
 		return (
@@ -115,21 +132,33 @@ class UpdateGame extends Component {
 			          <Input onChange={this.handleWholeNumber} type="number" name="popularity" id="popularityInput" value={this.state.popularity} />
 			          <FormText>Set Popularity for Sorting by Popularity</FormText>
 			        </FormGroup>
+			        <FormGroup>
+			          <Label for="playersInput">Number of Players</Label>
+			          <Input onChange={this.handleInputChange} type="text" name="players" id="playersInput" value={this.state.players} />
+			          <FormText>For the MADE this should be set to number of local players, scraped info may be incorrect</FormText>
+			        </FormGroup>
 			        <FormGroup check>
 			          <Label check>
-			            <Input type="checkbox" name='collected' value={this.state.collected} checked={this.state.collected}/>{' '}
+			            <Input onClick={this.handleCheckedChange} type="checkbox" name='coop' checked={this.state.coop}/>{' '}
+			            Cooperative Play Available
+			          </Label>
+			          <FormText> Should be checked if the game is coopearative, scraped data is frequently wrong</FormText>
+			        </FormGroup>
+			        <FormGroup check>
+			          <Label check>
+			            <Input onClick={this.handleCheckedChange} type="checkbox" name='collected' checked={this.state.collected}/>{' '}
 			            In collection
 			          </Label>
 			          <FormText> Should be checked if the game is in the collection</FormText>
 			        </FormGroup>
 			        <FormGroup check>
 			          <Label check>
-			            <Input type="checkbox" name='downloaded' value={this.state.downloaded} checked={this.state.downloaded}/>{' '}
+			            <Input onClick={this.handleCheckedChange} type="checkbox" name='downloaded' checked={this.state.downloaded}/>{' '}
 			            Details Collected
 			          </Label>
 			          <FormText> Should be checked if the game's details were downloaded</FormText>
 			        </FormGroup>
-			        <Button>Submit</Button>
+			        <Button onClick={this.submitUpdate}>Update Game</Button>
 			      </Form>
 					</Col>
 					<Col md='6' xs='12'>
