@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import User from "../components/User";
 import Admin from "../components/Admin";
 import Detail from "../components/Detail";
+import UpdateGame from "../components/UpdateGame";
 
 // Export the Routes
 export default (
@@ -21,6 +22,7 @@ export default (
       <Switch>
         <Route exact path="/" component={User} />
         <Route exact path="/admin" component={Admin} />
+        <Route exact path="/admin/game/:id" component={UpdateGame} />
         <Route exact path="/games/:id" component={Detail} />
       </Switch>
     </div>

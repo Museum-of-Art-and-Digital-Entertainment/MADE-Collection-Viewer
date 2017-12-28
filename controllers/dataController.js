@@ -82,10 +82,10 @@ module.exports = {
               for (let i = 0; i < size; i++) {
                 let game = {
                   id: parseInt(games[i].id[0]),
-                  title: games[i].GameTitle[0],
-                  release: (games[i].ReleaseDate) ? moment.utc(games[i].ReleaseDate[0], ["MM/DD/YYYY", "YYYY"]) : null,
+                  title: games[i].GameTitle[0].trim(),
+                  release: (games[i].ReleaseDate) ? moment.utc(games[i].ReleaseDate[0].trim(), ["MM/DD/YYYY", "YYYY"]) : '',
 		              platformId: platform.id,
-		              platform: platform.name,
+		              platform: platform.name.trim(),
                 }
                 games[i] = game;
               }
@@ -131,15 +131,15 @@ module.exports = {
             // console.log(JSON.stringify(gameRes, null, 2));
             let game = {
               id: gameRes.id[0],
-              title: gameRes.GameTitle[0],
+              title: gameRes.GameTitle[0].trim(),
               platformId: gameRes.PlatformId[0],
-              platform: gameRes.Platform[0],
-              release: (gameRes.ReleaseDate) ? moment.utc(gameRes.ReleaseDate[0], ["MM/DD/YYYY", "YYYY"]) : null,
-              esrb: (gameRes.ESRB) ? gameRes.ESRB[0] : null,
-              overview: (gameRes.Overview) ? gameRes.Overview[0] : null,
-              publisher: (gameRes.Publisher) ? gameRes.Publisher[0] : null,
-              developer: (gameRes.Developer) ? gameRes.Developer[0] : null,
-              players: (gameRes.Players) ? gameRes.Players[0] : null,
+              platform: gameRes.Platform[0].trim(),
+              release: (gameRes.ReleaseDate) ? moment.utc(gameRes.ReleaseDate[0].trim(), ["MM/DD/YYYY", "YYYY"]) : '',
+              esrb: (gameRes.ESRB) ? gameRes.ESRB[0].trim() : '',
+              overview: (gameRes.Overview) ? gameRes.Overview[0].trim() : '',
+              publisher: (gameRes.Publisher) ? gameRes.Publisher[0].trim() : '',
+              developer: (gameRes.Developer) ? gameRes.Developer[0].trim() : '',
+              players: (gameRes.Players) ? gameRes.Players[0].trim() : '',
               downloaded: true
             }
 
