@@ -48,16 +48,13 @@ class Admin extends Component {
 		if (this.state.sort !== '') {
 			query.sort = this.state.sort.split(',');
 		}
-		console.log(query);
 		API.getGames(query)
 			.then(res => {
-				console.log(res.data.length, res.data);
 				this.setState({ games: res.data })
 			})
 			.catch(err => console.log(err));
 		API.getCount(query)
 			.then(res => {
-				console.log(res.data);
 				this.setState({ count: res.data, lastPage: Math.ceil(res.data/this.state.limit) })
 			})
 			.catch(err => console.log(err));
@@ -69,15 +66,15 @@ class Admin extends Component {
 
 	changePage = event => {
 		if (event.target.value !== '') {
-			this.setState({offset: (event.target.value - 1) * this.state.limit}, this.loadGames);
+			this.setState({offset: (event.target.value - 1) * this.state.limit, page: event.target.value}, this.loadGames);
 		}
 	};
 
 	incrementPage = event => {
-		const change = parseInt(event.target.value);
+		const change = parseInt(event.target.value, 10);
 		const increment = this.state.offset + (this.state.limit * change);
-		if (increment > 0 && increment < this.state.count)
-			this.setState({offset: increment, page: parseInt(this.state.page) + change}, this.loadGames);
+		if (increment >= 0 && increment <= this.state.count)
+			this.setState({offset: increment, page: parseInt(this.state.page, 10) + change}, this.loadGames);
 	};
 
 	componentDidMount() {
