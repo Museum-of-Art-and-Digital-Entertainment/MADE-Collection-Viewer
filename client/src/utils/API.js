@@ -8,7 +8,7 @@ export default {
   },
   // Gets the book with the given id
   getGame: function(id) {
-    return axios.get("/api/game/" + id);
+    return axios.get("/api/user/game/" + id);
   },
   //TODO: Add call to user api where collected is true. 
   getPlatforms: function(options = {}) {

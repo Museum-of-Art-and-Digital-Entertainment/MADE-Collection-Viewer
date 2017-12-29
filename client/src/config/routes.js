@@ -23,7 +23,7 @@ export default (
         <Route exact path="/" component={User} />
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/admin/game/:id" component={UpdateGame} />
-        <Route exact path="/games/:id" component={Detail} />
+        <Route exact path="/game/:id" component={Detail} />
       </Switch>
     </div>
   </Router>

@@ -7,13 +7,7 @@ import { Container, Col } from 'reactstrap';
 
 class User extends Component {
   state = {
-    games: [
-      {title: "Mario", platform: "nitendo", year: 2010, multiplayer: false },
-      {title: "Zelda Breadth of the Wild", platform: "nitendo switch", year: 2017, multiplayer: false },
-      {title: "Mario", platform: "nitendo", year: 2010, multiplayer: false },
-      {title: "Mario", platform: "nitendo", year: 2010, multiplayer: false },
-      {title: "Mario", platform: "nitendo", year: 2010, multiplayer: false }
-    ],
+    games: [],
     title: "",
     platform: "",
     year: "",
@@ -56,10 +50,12 @@ class User extends Component {
     // When the form is submitted, prevent its default behavior, get games update the gamesearch state
     event.preventDefault();
     console.log("FORM SUBMIT");
-    console.log(this.state)
+    console.log("state1", this.state)
     API.searchGet(this.checkState())
     .then(res => this.setState({games: res.data, title: "", platform: "", year: "", multiplayer: ""}))
-    .catch(err => console.log(err));    
+      // 
+      // console.log(res.data)
+    .catch(err => console.log(err))
   }
 
 
@@ -76,7 +72,10 @@ class User extends Component {
               platformQuery={API.getPlatforms}
           /> 
           {!this.state.games.length ? (
-            <h1 className="text-center">No Games to Display</h1>
+            <div>
+              <h1 className="text-center">No Games to Display</h1>
+              <h2 className="text-center"> Please Search for a game </h2>
+            </div>  
           ) : (
             <div className="gameList">
               {this.state.games.map(game => {
@@ -87,7 +86,8 @@ class User extends Component {
                     title={game.title}
                     description={game.description}
                     platform={game.platform}
-                    boxart={game.boxart}
+                    boxart={game.boxartFront}
+                    id={game._id}
                   />
                   </Col>
                 );
