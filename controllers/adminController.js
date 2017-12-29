@@ -80,12 +80,6 @@ module.exports = {
   // get all platforms
   getPlatforms: (req, res) => {
     let query = {};
-    if (req.query.name) {
-      query.name = req.query.name; 
-    }
-    if (req.query.id) {
-      query.id = req.query.title;
-    }
     db.Platform.find(query)
       .then(foundPlatforms => res.json(foundPlatforms))
       .catch(err => {
@@ -99,7 +93,7 @@ module.exports = {
       res.send('NOT IMPLEMENTED: updatedb');
   },
 
-  // 
+  // Download game info from thegamesDB.net
   downloadGame: (req, res) => {
     data.getGameData(req.params)
       .then(game => {
@@ -119,12 +113,14 @@ module.exports = {
 
   // get one game for update/delete
   getGame: (req, res) => {
-      res.send('NOT IMPLEMENTED: get game ',+ req.params.id);
+    db.Game.findOne({_id: req.params.id})
+      .then(game => res.json(game))
+      .catch(err => res.message(err.message).sendStatus(400));
   },
 
   // update a game
   updateGame: (req, res) => {
-      db.Game.findOneAndUpdate({id: req.params.id}, req.body, { new: true })
+      db.Game.findOneAndUpdate({_id: req.params.id}, req.body, { new: true })
         .then(game => res.json(game))
         .catch(err => res.message(err.message).sendStatus(400));
   },
