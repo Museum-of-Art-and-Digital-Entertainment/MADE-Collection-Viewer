@@ -19,7 +19,7 @@ const makeQuery = ask => {
     query.id = escapeRegex(ask.id);
   }
   if (ask._id) {
-    query._id = ask._id; 
+    query._id = ask._id;
   }
   if (ask.collected) {
     query.collected = ask.collected;
@@ -31,27 +31,8 @@ const makeQuery = ask => {
 module.exports = {
 
   index: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin Home Page');
-  },
-
-  // Signup Admin
-  signinGet: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin signin');
-  },
-
-  // Signup Admin
-  signupGet: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin  signup: ');
-  },
-
-  // Signup Admin
-  signinPost: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin signin');
-  },
-
-  // Signup Admin
-  signupPost: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin  signup: ');
+    res.send(req.user);
+    console.log("profile", req.user);
   },
 
   // get all games with or without search criteria
@@ -81,7 +62,7 @@ module.exports = {
   getPlatforms: (req, res) => {
     let query = {};
     if (req.query.name) {
-      query.name = req.query.name; 
+      query.name = req.query.name;
     }
     if (req.query.id) {
       query.id = req.query.title;
@@ -90,7 +71,7 @@ module.exports = {
       .then(foundPlatforms => res.json(foundPlatforms))
       .catch(err => {
         console.log(err)
-        res.sendStatus(400); 
+        res.sendStatus(400);
       });
   },
 
@@ -99,7 +80,7 @@ module.exports = {
       res.send('NOT IMPLEMENTED: updatedb');
   },
 
-  // 
+  //
   downloadGame: (req, res) => {
     data.getGameData(req.params)
       .then(game => {
