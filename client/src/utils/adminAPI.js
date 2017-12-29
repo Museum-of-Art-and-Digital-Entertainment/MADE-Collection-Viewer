@@ -11,8 +11,10 @@ export default {
 		return axios.get('/api/admin/games/count', { params: options });
 	},
 	updateGame: function(game) {
-		return axios.put('/api/admin/game/update/' + game.id, game );
+		return axios.put('/api/admin/game/update/' + game._id, game );
 	},
+	// Download the details of a game from thegamesDB.net
+	// id is the game id parameter referencing thegamesDB.net game id
 	downloadDetails: function(id) {
 		return axios.get('/api/admin/game/download/' + id); 
 	}

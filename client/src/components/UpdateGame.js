@@ -7,6 +7,7 @@ import moment from 'moment';
 
 class UpdateGame extends Component {
 	state = {
+		_id: 0,
 		id: 0,
 		title: '',
 		platformId: 0,
@@ -71,9 +72,9 @@ class UpdateGame extends Component {
   };
 
 	loadGame = () => {
-		API.getGames({id:this.props.match.params.id})
+		API.getGames({_id:this.props.match.params.id})
 			.then(res => {
-				this.setState({...res.data[0]});
+				this.setState(res.data[0]);
 			})
 			.catch(err => console.log(err));
 	};
@@ -83,14 +84,29 @@ class UpdateGame extends Component {
 		game.genres = game.genres.map(g => g.trim());
 		API.updateGame(game)
 			.then(res => {
-				this.setState({...res.data});
+				this.setState(res.data);
 			})
 			.catch(err => console.log(err));
-	}
+	};
+
+	downloadDetails = event => {
+		API.downloadDetails(this.state.id)
+			.then(res => this.setState(res.data))
+			.catch(err => console.log(err));
+	};
 
 	render () {
 		return (
 			<Container>
+				<Row>
+					<Col>
+						<a href='/admin'><Button size='lg'>Back</Button></a>
+					</Col>
+					<Col style={{'textAlign': 'right'}}>
+						<Button onClick={this.downloadDetails}>Download Details</Button>
+						<FormText>Download Info from thegamesDB.net (will overwrite details)</FormText>
+					</Col>
+				</Row>
 				<Row>
 					<Col md='6' xs='12'>
 						<Form>
