@@ -19,7 +19,7 @@ const makeQuery = ask => {
     query.id = escapeRegex(ask.id);
   }
   if (ask._id) {
-    query._id = ask._id; 
+    query._id = ask._id;
   }
   if (ask.collected) {
     query.collected = ask.collected;
@@ -31,27 +31,8 @@ const makeQuery = ask => {
 module.exports = {
 
   index: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin Home Page');
-  },
-
-  // Signup Admin
-  signinGet: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin signin');
-  },
-
-  // Signup Admin
-  signupGet: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin  signup: ');
-  },
-
-  // Signup Admin
-  signinPost: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin signin');
-  },
-
-  // Signup Admin
-  signupPost: (req, res) => {
-      res.send('NOT IMPLEMENTED: Admin  signup: ');
+    res.send(req.user);
+    console.log("profile", req.user);
   },
 
   // get all games with or without search criteria
@@ -80,17 +61,11 @@ module.exports = {
   // get all platforms
   getPlatforms: (req, res) => {
     let query = {};
-    if (req.query.name) {
-      query.name = req.query.name; 
-    }
-    if (req.query.id) {
-      query.id = req.query.title;
-    }
     db.Platform.find(query)
       .then(foundPlatforms => res.json(foundPlatforms))
       .catch(err => {
         console.log(err)
-        res.sendStatus(400); 
+        res.sendStatus(400);
       });
   },
 
@@ -99,7 +74,8 @@ module.exports = {
       res.send('NOT IMPLEMENTED: updatedb');
   },
 
-  // 
+
+  // Download game info from thegamesDB.net
   downloadGame: (req, res) => {
     data.getGameData(req.params)
       .then(game => {
@@ -119,12 +95,14 @@ module.exports = {
 
   // get one game for update/delete
   getGame: (req, res) => {
-      res.send('NOT IMPLEMENTED: get game ',+ req.params.id);
+    db.Game.findOne({_id: req.params.id})
+      .then(game => res.json(game))
+      .catch(err => res.message(err.message).sendStatus(400));
   },
 
   // update a game
   updateGame: (req, res) => {
-      db.Game.findOneAndUpdate({id: req.params.id}, req.body, { new: true })
+      db.Game.findOneAndUpdate({_id: req.params.id}, req.body, { new: true })
         .then(game => res.json(game))
         .catch(err => res.message(err.message).sendStatus(400));
   },
