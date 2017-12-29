@@ -37,6 +37,7 @@ class AdminListItem extends Component {
 
   submitAddCopies = event => {
   	const game = {
+  		_id: this.props._id,
   		id: this.props.id,
   		copies: parseInt(this.state.copies, 10) + parseInt(this.state.addCopies, 10),
   		collected: true
@@ -47,7 +48,7 @@ class AdminListItem extends Component {
   submitRemoveCopies = event => {
   	if (this.state.copies) {
 	  	const game = {
-	  		id: this.props.id,
+	  		_id: this.props._id,
 	  		copies: parseInt(this.state.copies, 10) + parseInt(this.state.removeCopies, 10),
 	  	};
 	  	if (game.copies <= 0) {
@@ -66,7 +67,7 @@ class AdminListItem extends Component {
   			this.setState({collected: res.data.collected, copies: res.data.copies});
   		})
   		.catch(err => console.log(err));
-  	if (!this.state.download) {
+  	if (!this.state.download && game.id) {
   		API.downloadDetails(game.id)
 				.then(res => {
 					this.setState({download: res.data.downloaded});
@@ -126,7 +127,7 @@ class AdminListItem extends Component {
 					      </InputGroup>
 					     </Col>
 					     <Col md='3' sm='12' xs='12'>
-					      <a href={"/admin/game/" + this.props.id}><Button>Update</Button></a>
+					      <a href={"/admin/game/" + this.props._id}><Button>Update</Button></a>
 					     </Col>
 					     <Col md='3' sm='12' xs='12'>
 					      <h4>{(this.state.download)? "Details Collected": "Details Needed"}</h4>
