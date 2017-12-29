@@ -86,11 +86,16 @@ class UpdateGame extends Component {
 				this.setState({...res.data});
 			})
 			.catch(err => console.log(err));
-	}
+	};
 
 	render () {
 		return (
 			<Container>
+				<Row>
+					<Col>
+						<a href='/admin'><Button size='lg'>Back</Button></a>
+					</Col>
+				</Row>
 				<Row>
 					<Col md='6' xs='12'>
 						<Form>
