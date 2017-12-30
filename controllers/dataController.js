@@ -12,11 +12,11 @@ module.exports = {
       }
     };
     return new Promise((resolve, reject) => {
-    	options.url+='&limit=1';
+      options.url += '&limit=1';
       request(options, function(err, response, json) {
         if (err) reject(err);
         games = JSON.parse(json);
-        console.log(JSON.stringify(games,null,2));
+        console.log(JSON.stringify(games, null, 2));
         resolve('Success');
       });
     });
@@ -84,8 +84,8 @@ module.exports = {
                   id: parseInt(games[i].id[0]),
                   title: games[i].GameTitle[0].trim(),
                   release: (games[i].ReleaseDate) ? moment.utc(games[i].ReleaseDate[0].trim(), ["MM/DD/YYYY", "YYYY"]) : '',
-		              platformId: platform.id,
-		              platform: platform.name.trim(),
+                  platformId: platform.id,
+                  platform: platform.name.trim(),
                 }
                 games[i] = game;
               }
@@ -120,6 +120,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       request("http://thegamesdb.net/api/GetGame.php?id=" + search.id, function(err, response, xml) {
         if (err) {
+          console.log(err);
           reject(err);
         }
         parseString(xml, function(err, result) {
@@ -202,4 +203,48 @@ module.exports = {
         });
     });
   },
+
+  updateList: async function(list, errors = 20, games = []) {
+    if (list.length) {
+      const item = { id: list.pop() }
+      console.log('Updating', item);
+      this.getGameData(item)
+        .then(res => {
+          games.push(res);
+          console.log(res);
+          errors = 20;
+          this.updateList(list, errors, games)
+        })
+        .catch(err => {
+          console.log(err);
+          errors--;
+          list.push(item.id);
+          this.updateList(list, errors, games)
+        });
+    } else if (errors === 0) {
+      console.log('Too many errors');
+      return games;
+    } else {
+      return games;
+    }
+  },
+
+  updateGamesDB: function(time = 2592000) {
+    return new Promise((resolve, reject) => {
+      request('http://thegamesdb.net/api/Updates.php?time='+time, function(err, response, xml) {
+        if (err) {
+          console.log(err);
+          reject(err);
+        }
+        parseString(xml, function(err, result) {
+          if (err) {
+            console.log(err);
+            reject(err);
+          } else {
+            resolve(result.Items.Game);
+          }
+        });
+      })
+    })
+  }
 }
