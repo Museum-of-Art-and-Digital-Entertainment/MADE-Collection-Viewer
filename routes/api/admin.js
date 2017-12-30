@@ -28,7 +28,7 @@ router.get('/games', isLoggedIn, controllers.admin.getAllGames);
 router.get('/games/count', isLoggedIn,  controllers.admin.getGameCount);
 
 /* GET all games with or without a strict name or id search*/
-router.get('/platforms', isLoggedIn, controllers.admin.getPlatforms);
+router.get('/platforms', controllers.admin.getPlatforms);
 
 /* POST hit api and update database. */
 router.post('/game/updatedb', isLoggedIn, controllers.admin.updateDB);
