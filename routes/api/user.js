@@ -12,4 +12,5 @@ router.get('/search', controllers.admin.getAllGames);
 /* GET game details. */
 router.get('/game/:id', controllers.user.gameGet);
 
+
 module.exports = router;
