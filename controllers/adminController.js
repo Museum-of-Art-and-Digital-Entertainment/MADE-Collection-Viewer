@@ -31,27 +31,8 @@ const makeQuery = ask => {
 module.exports = {
 
   index: (req, res) => {
-    res.send('NOT IMPLEMENTED: Admin Home Page');
-  },
-
-  // Signup Admin
-  signinGet: (req, res) => {
-    res.send('NOT IMPLEMENTED: Admin signin');
-  },
-
-  // Signup Admin
-  signupGet: (req, res) => {
-    res.send('NOT IMPLEMENTED: Admin  signup: ');
-  },
-
-  // Signup Admin
-  signinPost: (req, res) => {
-    res.send('NOT IMPLEMENTED: Admin signin');
-  },
-
-  // Signup Admin
-  signupPost: (req, res) => {
-    res.send('NOT IMPLEMENTED: Admin  signup: ');
+    res.send(req.user);
+    console.log("profile", req.user);
   },
 
   // get all games with or without search criteria
@@ -108,6 +89,7 @@ module.exports = {
         res.sendStatus(400);
       });
   },
+
 
   // Download game info from thegamesDB.net
   downloadGame: (req, res) => {

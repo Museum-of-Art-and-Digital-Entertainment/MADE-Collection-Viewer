@@ -1,21 +1,24 @@
 const router = require("express").Router();
 // Require controller modules
+const passport = require('passport');
 const controllers = require('../../controllers');
+
+// themaid.org check for production
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/callback', passport.authenticate('google', {
+  successRedirect: '/admin',
+  failureRedirect: '/admin/login',
+}));
+
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/admin/login');
+});
 
 /* GET admin home page. */
 router.get('/', controllers.admin.index);
 
-/* GET admin home page - to authenticate */
-router.get('/signin', controllers.admin.signinGet);
-
-/* GET admin home page - to authenticate */
-router.get('/signup', controllers.admin.signupGet);
-
-/* POST admin home page - to authenticate */
-router.post('/signin', controllers.admin.signinPost);
-
-/* POST admin home page - to authenticate */
-router.post('/signup', controllers.admin.signupPost);
 
 /* GET all games with or without fuzzy search query*/
 /* Search Example /api/admin/games/?title=[title to search for]*/
@@ -48,3 +51,9 @@ router.put('/game/update/:id', controllers.admin.updateGame);
 router.post('/game/:id/delete', controllers.admin.deleteGame);
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated())
+      return next();
+  res.redirect('/admin/login');
+}

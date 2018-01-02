@@ -2,6 +2,7 @@ div.thumbnail {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  width: 100%;
+  width: 10;
+  height: 20px;
   padding-top: 100%;
 }

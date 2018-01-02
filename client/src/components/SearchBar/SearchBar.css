@@ -1,3 +1,5 @@
-.col-search-btn {
-	text-align: right;
+.searchbar {
+	background-color: black;
+	padding: 20px;
+	border-radius: 5px;
 }
