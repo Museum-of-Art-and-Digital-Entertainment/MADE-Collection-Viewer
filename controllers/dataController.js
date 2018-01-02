@@ -204,7 +204,7 @@ module.exports = {
     });
   },
 
-  updateList: async function(list, errors = 20, games = []) {
+  updateList: async function(list, cb, errors = 20, games = []) {
     if (list.length) {
       const item = { id: list.pop() }
       console.log('Updating', item);
@@ -213,19 +213,19 @@ module.exports = {
           games.push(res);
           console.log(res);
           errors = 20;
-          this.updateList(list, errors, games)
+          this.updateList(list, cb, errors, games)
         })
         .catch(err => {
           console.log(err);
           errors--;
           list.push(item.id);
-          this.updateList(list, errors, games)
+          this.updateList(list, cb, errors, games)
         });
     } else if (errors === 0) {
       console.log('Too many errors');
-      return games;
+      cb(games);
     } else {
-      return games;
+      cb(games);
     }
   },
 

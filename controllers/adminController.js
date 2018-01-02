@@ -94,17 +94,12 @@ module.exports = {
     const time = req.query.time || 4*60*60
     data.updateGamesDB(time)
       .then(result => {
-        console.log(result);
+        console.log('Updated game ids', result || 'none');
         if (result) {
-          return Promise.all(result.map(item => data.getGameData({id: item})));
-          // data.updateList(result)
-          //   .then(games => res.json(games))
-          //   .catch(err => {
-          //     console.log(err);
-          //     res.sendStatus(400);
-          //   });
+          // res.write(`Updating ${result.length} games. It could take as long as ${result.length * 5} seconds.`);
+          return new Promise(resolve => data.updateList(result, resolve));
         } else {
-          res.json([]);
+          return new Promise(resolve => resolve([]));
         }
       })
       .then(result => res.json(result))
