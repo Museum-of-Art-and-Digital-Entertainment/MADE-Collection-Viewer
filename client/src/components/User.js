@@ -67,7 +67,6 @@ class User extends Component {
     if (this.state.multiplayer === "No") {
       searchObj.multiplayer = false;
     }
-    console.log(searchObj)
     return searchObj;
   }
 
@@ -153,12 +152,6 @@ class User extends Component {
                 inputHandler={this.handlePageInput}
               />
             </Col>
-            {/*<Col >
-                <ButtonGroup>
-                  <Button incrementPage={this.incrementPage} page={this.state.page} value={-1}>{'<<'}</Button>{' '}
-                  <Button incrementPage={this.incrementPage} page={this.state.page} value={1}>{'>>'}</Button>{' '}
-                </ButtonGroup>
-            </Col>*/}
           </Row>
         </Container>
       </div>
