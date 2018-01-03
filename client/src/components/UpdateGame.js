@@ -3,13 +3,14 @@ import API from '../utils/adminAPI';
 import { Container, Row, Col } from 'reactstrap';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import AdminNav from './AdminNav';
+import PlatformInput from './PlatformInput';
 import moment from 'moment';
 
 
 class UpdateGame extends Component {
 	state = {
 		_id: 0,
-		id: 0,
+		theGamesDBId: null,
 		title: '',
 		platformId: 0,
 		platform: '',
@@ -93,7 +94,7 @@ class UpdateGame extends Component {
 	};
 
 	downloadDetails = event => {
-		API.downloadDetails(this.state.id)
+		API.downloadDetails(this.state.theGamesDBId)
 			.then(res => this.setState(res.data))
 			.catch(err => console.log(err));
 	};
@@ -112,8 +113,12 @@ class UpdateGame extends Component {
 							<a href='/admin'><Button size='lg'>Back</Button></a>
 						</Col>
 						<Col style={{'textAlign': 'right'}}>
-							<Button onClick={this.downloadDetails}>Download Details</Button>
-							<FormText>Download Info from thegamesDB.net (will overwrite details)</FormText>
+							{ this.state.theGamesDBId && 
+								<div>
+									<Button onClick={this.downloadDetails}>Download Details</Button>
+									<FormText>Download Info from thegamesDB.net (will overwrite details)</FormText>
+								</div>
+							}
 						</Col>
 					</Row> 
 				}
@@ -124,6 +129,14 @@ class UpdateGame extends Component {
 			          <Label for="titleInput">Title</Label>
 			          <Input onChange={this.handleInputChange} type="text" name="title" id="titleInput" value={this.state.title} />
 			        </FormGroup>
+			        <FormGroup>
+			        	<Label for="platformInput">Platform</Label>
+			        	<PlatformInput 
+			        		inputHandler={this.handleInputChange} 
+									platformQuery= {API.getPlatforms}
+									platform={this.state.platformId}
+								/>
+							</FormGroup>
 			        <FormGroup>
 			          <Label for="releaseInput">Release</Label>
 			          <Input onChange={this.handleDateChange} type="date" name="release" id="releaseInput" value={moment.utc(this.state.release).format('YYYY-MM-DD')} />

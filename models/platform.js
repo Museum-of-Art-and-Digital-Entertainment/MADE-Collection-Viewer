@@ -3,9 +3,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PlatformSchema = new Schema({
-	id: {
+	theGamesDBId: {
 		type: Number,
-		index: true,
 		unique: true
 	},
 	name: {
