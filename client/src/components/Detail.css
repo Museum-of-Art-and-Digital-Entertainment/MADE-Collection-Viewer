@@ -1,4 +1,44 @@
 img.boxartImg {
-	height: 450px;
-	width: 330px;
+	max-height: 450px;
+	max-width: 330px;
 }
+
+.titleDisplay {
+	margin-top: 10px;
+	text-align: center;
+	background-color: rgba(208, 220, 232, .6);
+}
+
+.colImg {
+	align-content: center;
+}
+
+.button {
+	margin: 15px;
+	background-color: #29BBA6;
+	border-color: #29BBA6;
+}
+.button:hover {
+	background-color: #209584;
+	color: white;
+}
+.linkText {
+	color: white;
+}
+
+body {
+	background: url("../utils/dark_fish_skin_@2X.png") repeat;
+	color: white;
+}
+
+
+.info {
+	background-color: rgba(208, 220, 232, .6);
+	padding: 15px;
+	border-radius: 5px;
+	margin-bottom: 50px;
+}
+
+
+
+

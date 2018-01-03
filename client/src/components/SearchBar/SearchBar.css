@@ -1,5 +1,10 @@
 .searchbar {
-	background-color: black;
+	background-color: rgba(208, 220, 232, .6);
 	padding: 20px;
+	margin-top: 10px;
 	border-radius: 5px;
+}
+
+.search-btn {
+	background-color: #29BBA6;
 }

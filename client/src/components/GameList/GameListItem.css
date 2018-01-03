@@ -4,26 +4,65 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
-  width: 90%;
-  margin-left: 90px;
-  margin-top: 10px;
-  height: 100vh;
-  background-color: grey;
-  background-image: url("../../utils/Shelf-dark.png");
-  border-radius: 5px;
+  flex-grow: 1;
+  /*margin: 50px;*/
+  border-radius: 5px; 
+  border: 20px solid #209584;
+}
+
+.imageContainer {
+  flex-grow: 1;
 }
 
 /*When games are added to the gameList container they will diplay in rows*/
 .game {
-	/*border: black;*/
-	border-style: solid;
 	width: 150px;
 	height: 150px;
-	/*font-size: 50px;*/
+  position: relative;
+  z-index: 3;
+  top: 10px;
 	padding: 0px 5px;
 	justify-content: center;
 	text-align: center;
-	margin: 20px 0;
+	margin: 25px 0 0 0;
+  
 }
 
+.shelfImg {
+  max-width: 150px;
+  max-height: 150px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-shadow: 0px 5px 5px rgba(68, 68, 68, 0.6);
+}
 
+.game:hover {
+  top: -2px;
+}
+
+.shelfContainer {
+  position: relative;
+}
+.shelf {
+  z-index: 1;
+  border-bottom: 25px solid #29BBA6;
+    /*border-left: 10px solid transparent;*/
+    /*border-right: 10px solid transparent;*/
+  position: relative;
+}
+
+.shelf:after {
+  content: '';
+  background: #209584;
+  height: 20px;
+  width: 100%;
+  position: absolute;
+  bottom: -45px;
+  right: 0px;
+  z-index: 2;
+}
+
+.pageControl {
+  margin: 15px;
+}

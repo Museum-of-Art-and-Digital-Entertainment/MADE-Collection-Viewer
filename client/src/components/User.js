@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import SearchBar from "./SearchBar";
 import API from "../utils/API";
 import './GameList/GameListItem.css';
+import PageControl from './PageControl';
 import { GameListItem } from "./GameList";
-import { Container, Col } from 'reactstrap';
+import { Container, Col, Row } from 'reactstrap';
+import { Button, ButtonGroup } from 'reactstrap';
 
 class User extends Component {
   state = {
@@ -11,8 +13,41 @@ class User extends Component {
     title: "",
     platform: "",
     year: "",
-    multiplayer: ""
+    multiplayer: "",
+    offset: 0, 
+    limit: 28,
+    sort: '',
+    count: 0,
+    page: 1,
+    lastPage: 1,
+    query: this.props.match.params || {}
+  }
+    
 
+  loadGames = () => {
+    let query = {
+      offset: this.state.offset,
+      limit: this.state.limit
+    }
+    if (this.state.title !== '') {
+      query.title = this.state.title;
+    }
+    if (this.state.platform !== '') {
+      query.platform = this.state.platform;
+    }
+    if (this.state.sort !== '') {
+      query.sort = this.state.sort.split(',');
+    }
+    API.searchGet(query)
+      .then(res => {
+        this.setState({ games: res.data })
+      })
+      .catch(err => console.log(err));
+    API.getCount(query)
+      .then(res => {
+        this.setState({ count: res.data, lastPage: Math.ceil(res.data/this.state.limit) })
+      })
+      .catch(err => console.log(err));
   }
 
   checkState = () => {
@@ -43,19 +78,28 @@ class User extends Component {
     this.setState({
       [name]: value
     });
-    console.log("INPUT CHANGE", this.state)
   }
 
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get games update the gamesearch state
     event.preventDefault();
-    console.log("FORM SUBMIT");
-    console.log("state1", this.state)
     API.searchGet(this.checkState())
     .then(res => this.setState({games: res.data, title: "", platform: "", year: "", multiplayer: ""}))
       // 
       // console.log(res.data)
     .catch(err => console.log(err))
+
+  }
+
+  incrementPage = event => {
+    const change = parseInt(event.target.value, 10);
+    const increment = this.state.offset + (this.state.limit * change);
+    if (increment >= 0 && increment <= this.state.count)
+      this.setState({offset: increment, page: parseInt(this.state.page, 10) + change}, this.loadGames);
+  }
+
+  componentDidMount() {
+    this.loadGames();
   }
 
 
@@ -78,8 +122,9 @@ class User extends Component {
             </div>  
           ) : (
             <div className="gameList">
-              {this.state.games.map(game => {
+              {this.state.games.map((game, i) => {
                 return (
+                  <div className="imageContainer">
                   <Col >
                   <GameListItem
                     key={game._id}
@@ -90,10 +135,31 @@ class User extends Component {
                     id={game._id}
                   />
                   </Col>
+                  <div className="shelfContainer">
+                    <div className="shelf"/>
+                  </div>
+                  </div>
                 );
               })}
             </div>
           )}
+          <Row className="pageControl">
+            <Col md={{ size: 12, offset: 3 }} xs='12'>
+              <PageControl
+                changePage={this.changePage}
+                incrementPage={this.incrementPage}
+                lastPage={this.state.lastPage}
+                page={this.state.page}
+                inputHandler={this.handlePageInput}
+              />
+            </Col>
+            {/*<Col >
+                <ButtonGroup>
+                  <Button incrementPage={this.incrementPage} page={this.state.page} value={-1}>{'<<'}</Button>{' '}
+                  <Button incrementPage={this.incrementPage} page={this.state.page} value={1}>{'>>'}</Button>{' '}
+                </ButtonGroup>
+            </Col>*/}
+          </Row>
         </Container>
       </div>
     );
