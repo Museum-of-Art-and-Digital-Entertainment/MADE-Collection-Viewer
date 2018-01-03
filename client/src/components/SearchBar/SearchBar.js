@@ -51,7 +51,7 @@ export default class SearchBar extends Component {
 						>
 							<option value=''>Platform</option>
 							{this.state.platforms.map((platform, i) => (
-								<option key={platform.id} value={platform.id}>{platform.name}</option>
+								<option key={platform._id} value={platform.id}>{platform.name}</option>
 							))}
 						</Input>
 					</Col>

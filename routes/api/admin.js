@@ -36,7 +36,7 @@ router.get('/platforms', controllers.admin.getPlatforms);
 router.get('/games/updatedb', controllers.admin.updateDB);
 
 /* POST create a game */
-router.post('/games/create', controllers.admin.createGame);
+router.post('/game/create', controllers.admin.createGame);
 
 /* GET get info on a single game game with matching database id */
 router.get('/game/:id', controllers.admin.getGame);

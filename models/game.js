@@ -3,11 +3,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
-	id: {
+	theGamesDBId: {
 		type: Number,
-		index: true,
 		unique: true,
-		required: true
+		sparse: true
 	},
 	title: {
 		type: String,
@@ -23,23 +22,19 @@ const GameSchema = new Schema({
 	},
 	release: {
 		type: Date,
-		default: undefined
 	},
 	overview: {
 		type: String,
-		default: ''
 	},
 	esrb: {
 		type: String,
-		default: ''
 	},
 	players: {
 		type: String,
-		default: ''
 	},
 	coop: {
 		type: Boolean,
-		default: ''
+		default: false
 	},
 	publisher: {
 		type: String,
@@ -47,7 +42,6 @@ const GameSchema = new Schema({
 	},
 	developer: {
 		type: String,
-		default: ''
 	},
 	genres: [
 		{
@@ -56,11 +50,9 @@ const GameSchema = new Schema({
 	],
 	boxartFront: {
 		type: String,
-		default: ''
 	},
 	boxartBack: {
 		type: String,
-		default: ''
 	},
 	similar: [
 		{
