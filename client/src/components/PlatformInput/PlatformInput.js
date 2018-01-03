@@ -20,13 +20,13 @@ class PlatformInput extends Component {
 				className="plaform-dropdown"
 				type='select' 
 				onChange = {this.props.inputHandler} 
-				name='platform' 
+				name= {this.props.name} 
 				value={this.props.platform}
 				style={{height:'100%'}}
 			>
 				<option value=''>Platform</option>
 				{this.state.platforms.map((platform, i) => (
-					<option key={platform.theGamesDBId} value={platform.theGamesDBId}>{platform.name}</option>
+					<option key={platform._id} value={platform.theGamesDBId}>{platform.name}</option>
 				))}
 			</Input>
 		)

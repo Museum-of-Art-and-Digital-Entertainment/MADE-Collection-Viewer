@@ -14,7 +14,7 @@ class UpdateGame extends Component {
 		title: '',
 		platformId: 0,
 		platform: '',
-		release: '',
+		release: 0,
 		overview: '',
 		esrb: '',
 		players: '',
@@ -41,6 +41,15 @@ class UpdateGame extends Component {
     this.setState({
       [name]: value
     });
+  };
+
+  handlePlatformChange = event => {
+  	const { name, value, selectedIndex, options } = event.target;
+  	const platform = options[selectedIndex].text;
+  	this.setState({
+  		[name]: value,
+  		'platform': platform,
+  	});
   };
 
   handleArrayChange = event => {
@@ -95,12 +104,22 @@ class UpdateGame extends Component {
 
 	downloadDetails = event => {
 		API.downloadDetails(this.state.theGamesDBId)
-			.then(res => this.setState(res.data))
+			.then(res => {
+				console.log(res);
+				this.setState(res.data);
+			})
 			.catch(err => console.log(err));
 	};
 
 	addGame = event => {
-		console.log('TODO: Add Game');
+		let game = this.state;
+		delete game.theGamesDBId;
+		delete game._id;
+		API.createGame(game)
+			.then(res => {
+				this.setState(res.data);
+			})
+			.catch(err => console.log(err));
 	};
 
 	render () {
@@ -132,7 +151,8 @@ class UpdateGame extends Component {
 			        <FormGroup>
 			        	<Label for="platformInput">Platform</Label>
 			        	<PlatformInput 
-			        		inputHandler={this.handleInputChange} 
+			        		name='platformId'
+			        		inputHandler={this.handlePlatformChange} 
 									platformQuery= {API.getPlatforms}
 									platform={this.state.platformId}
 								/>

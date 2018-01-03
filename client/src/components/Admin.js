@@ -126,7 +126,7 @@ class Admin extends Component {
 				</Row>
 				<div id="games">
 					{this.state.games.map((game, i) => (
-						<AdminListItem key={game.id} {...game}/>
+						<AdminListItem key={game._id} {...game}/>
 	        ))}
 				</div>
 				<Row>

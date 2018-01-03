@@ -118,7 +118,7 @@ module.exports = {
 
   getGameData: function(search) {
     return new Promise((resolve, reject) => {
-      request("http://thegamesdb.net/api/GetGame.php?id=" + search.theGamesDBId, function(err, response, xml) {
+      request("http://thegamesdb.net/api/GetGame.php?id=" + search.id, function(err, response, xml) {
         if (err) {
           console.log(err);
           reject(err);
@@ -185,7 +185,7 @@ module.exports = {
                   const newGame = new db.Game(game);
                   return newGame.save();
                 } else {
-                  return db.Game.update({_id: res._id}, game, {new: true})
+                  return db.Game.findOneAndUpdate({_id: res._id}, game, {new: true})
                 } 
               })
               .then(res => resolve(res))
@@ -214,7 +214,7 @@ module.exports = {
 
   updateList: async function(list, cb, errors = 20, games = []) {
     if (list.length) {
-      const item = { theGamesDBId: list.pop() }
+      const item = { id: list.pop() }
       console.log('Updating', item);
       this.getGameData(item)
         .then(res => {
@@ -226,7 +226,7 @@ module.exports = {
         .catch(err => {
           console.log(err);
           errors--;
-          list.push(item.theGamesDBId);
+          list.push(item.id);
           this.updateList(list, cb, errors, games)
         });
     } else if (errors === 0) {

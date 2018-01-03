@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const PlatformSchema = new Schema({
 	theGamesDBId: {
 		type: Number,
-		unique: true
+		unique: true,
+		sparse: true
 	},
 	name: {
 		type: String,

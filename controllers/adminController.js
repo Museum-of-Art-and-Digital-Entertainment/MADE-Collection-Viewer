@@ -56,7 +56,10 @@ module.exports = {
     let query = makeQuery(req.query);
     db.Game.find(query).count()
       .then(count => res.json(count))
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
   // get all platforms
@@ -98,29 +101,43 @@ module.exports = {
         console.log('downloaded', game);
         res.json(game);
       })
-      .catch(err => res.sendStatus(400));
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
   // create a game
   createGame: (req, res) => {
+    delete req.body._id;
+    delete req.body.theGamesDBId;
     const game = new db.Game(req.body);
     game.save()
       .then(game => res.json(game))
-      .catch(err => res.sendStatus(400));
+      .catch(err => {
+        console.log(err)
+        res.sendStatus(400)
+      });
   },
 
   // get one game for update/delete
   getGame: (req, res) => {
     db.Game.findOne({ _id: req.params.id })
       .then(game => res.json(game))
-      .catch(err => res.sendStatus(400));
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
   // update a game
   updateGame: (req, res) => {
     db.Game.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then(game => res.json(game))
-      .catch(err => res.sendStatus(400));
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
   // delete a game
