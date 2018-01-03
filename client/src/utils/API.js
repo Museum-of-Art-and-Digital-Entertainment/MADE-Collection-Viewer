@@ -13,5 +13,8 @@ export default {
   //TODO: Add call to user api where collected is true. 
   getPlatforms: function(options = {}) {
 		return axios.get('/api/admin/platforms/', { params: options });
-	}
+	},
+  getCount: function(options = {}) {
+    return axios.get('/api/admin/games/count', { params: options });
+  }
 };

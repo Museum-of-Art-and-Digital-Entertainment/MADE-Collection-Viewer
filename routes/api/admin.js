@@ -25,12 +25,15 @@ router.get('/', controllers.admin.index);
 /* Or send query object with title paramater */
 router.get('/games', controllers.admin.getAllGames);
 
+
 /* GET count of all games with or without search query */
 /* works the same ast the games route */
 router.get('/games/count', controllers.admin.getGameCount);
 
+
 /* GET all games with or without a strict name or id search*/
 router.get('/platforms', controllers.admin.getPlatforms);
+
 
 /* GET hit api and update database with thegamesDB.net info. */
 router.get('/games/updatedb', controllers.admin.updateDB);
@@ -49,6 +52,7 @@ router.put('/game/update/:id', controllers.admin.updateGame);
 
 /* POST delete a game */
 router.post('/game/:id/delete', controllers.admin.deleteGame);
+
 
 module.exports = router;
 
