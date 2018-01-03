@@ -6,6 +6,7 @@ import { Input } from 'reactstrap';
 import AdminListItem from './AdminList';
 import SearchBar from './SearchBar';
 import PageControl from './PageControl';
+import AdminNav from './AdminNav';
 
 class Admin extends Component {
 	state = {
@@ -84,6 +85,7 @@ class Admin extends Component {
 	render () {
 		return (
 			<Container>
+				<AdminNav />
 				<SearchBar 
 					inputHandler={this.handleInputChange} 
 					buttonHandler={this.searchGames} 

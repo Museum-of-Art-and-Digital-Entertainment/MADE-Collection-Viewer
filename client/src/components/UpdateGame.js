@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import API from '../utils/adminAPI';
 import { Container, Row, Col } from 'reactstrap';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import AdminNav from './AdminNav';
 import moment from 'moment';
 
 
@@ -29,7 +30,9 @@ class UpdateGame extends Component {
 	};
 
 	componentDidMount() {
-		this.loadGame();
+		if(this.props.match.params.id) {
+			this.setState({_id:this.props.match.params.id}, this.loadGame);
+		}
 	};
 
 	handleInputChange = event => {
@@ -95,18 +98,25 @@ class UpdateGame extends Component {
 			.catch(err => console.log(err));
 	};
 
+	addGame = event => {
+		console.log('TODO: Add Game');
+	};
+
 	render () {
 		return (
 			<Container>
-				<Row>
-					<Col>
-						<a href='/admin'><Button size='lg'>Back</Button></a>
-					</Col>
-					<Col style={{'textAlign': 'right'}}>
-						<Button onClick={this.downloadDetails}>Download Details</Button>
-						<FormText>Download Info from thegamesDB.net (will overwrite details)</FormText>
-					</Col>
-				</Row>
+				<AdminNav />
+				{ this.props.match.params.id &&					
+					<Row>
+						<Col>
+							<a href='/admin'><Button size='lg'>Back</Button></a>
+						</Col>
+						<Col style={{'textAlign': 'right'}}>
+							<Button onClick={this.downloadDetails}>Download Details</Button>
+							<FormText>Download Info from thegamesDB.net (will overwrite details)</FormText>
+						</Col>
+					</Row> 
+				}
 				<Row>
 					<Col md='6' xs='12'>
 						<Form>
@@ -174,7 +184,11 @@ class UpdateGame extends Component {
 			          </Label>
 			          <FormText> Should be checked if the game's details were downloaded</FormText>
 			        </FormGroup>
-			        <Button onClick={this.submitUpdate}>Update Game</Button>
+			        { (this.state._id)? 
+			        	<Button onClick={this.submitUpdate}>Update Game</Button> 
+			        	: 
+			        	<Button onClick={this.addGame}>Add Game</Button>
+			        }
 			      </Form>
 					</Col>
 					<Col md='6' xs='12'>
