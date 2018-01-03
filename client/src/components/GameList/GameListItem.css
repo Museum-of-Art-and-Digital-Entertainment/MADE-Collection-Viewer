@@ -4,6 +4,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+<<<<<<< HEAD
   flex-grow: 1;
   /*margin: 50px;*/
   border-radius: 5px; 
@@ -12,6 +13,15 @@
 
 .imageContainer {
   flex-grow: 1;
+=======
+  width: 90%;
+  margin-left: 90px;
+  margin-top: 10px;
+  height: 100vh;
+  background-color: grey;
+  background-image: url("./Shelf-dark.png");
+  border-radius: 5px;
+>>>>>>> master
 }
 
 /*When games are added to the gameList container they will diplay in rows*/

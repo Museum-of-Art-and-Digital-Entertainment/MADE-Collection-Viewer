@@ -38,7 +38,7 @@ class AdminListItem extends Component {
   submitAddCopies = event => {
   	const game = {
   		_id: this.props._id,
-  		id: this.props.id,
+  		theGamesDBId: this.props.theGamesDBId,
   		copies: parseInt(this.state.copies, 10) + parseInt(this.state.addCopies, 10),
   		collected: true
   	};
@@ -67,8 +67,8 @@ class AdminListItem extends Component {
   			this.setState({collected: res.data.collected, copies: res.data.copies});
   		})
   		.catch(err => console.log(err));
-  	if (!this.state.download && game.id) {
-  		API.downloadDetails(game.id)
+  	if (!this.state.download && game.theGamesDBId) {
+  		API.downloadDetails(game.theGamesDBId)
 				.then(res => {
 					this.setState({download: res.data.downloaded});
 				})

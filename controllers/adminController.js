@@ -3,10 +3,10 @@ const db = require("../models");
 const data = require('./dataController.js');
 
 const makeQuery = ask => {
-  let query={}
+  let query = {}
   if (ask.title) {
-     const regex = new RegExp(escapeRegex(ask.title), 'gi');
-     query.title = regex;
+    const regex = new RegExp(escapeRegex(ask.title), 'gi');
+    query.title = regex;
   }
   if (ask.platform) {
     if (parseInt(ask.platform)) {
@@ -40,22 +40,26 @@ module.exports = {
     let query = makeQuery(req.query);
     const limit = parseInt(req.query.limit) || 50;
     const offset = parseInt(req.query.offset) || 0;
-    const sort = (req.query.sort)? {[req.query.sort[0]]: parseInt(req.query.sort[1])}: {title: 1}
+    const sort = (req.query.sort) ? {
+      [req.query.sort[0]]: parseInt(req.query.sort[1]) } : { title: 1 }
     db.Game.find(query)
-        .sort(sort)
-        .skip(offset)
-        .limit(limit)
-        .then(foundGames => {
-            res.json(foundGames);
-        })
-        .catch(err => console.log(err));
+      .sort(sort)
+      .skip(offset)
+      .limit(limit)
+      .then(foundGames => {
+        res.json(foundGames);
+      })
+      .catch(err => console.log(err));
   },
 
   getGameCount: (req, res) => {
     let query = makeQuery(req.query);
     db.Game.find(query).count()
       .then(count => res.json(count))
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
   // get all platforms
@@ -64,14 +68,29 @@ module.exports = {
     db.Platform.find(query)
       .then(foundPlatforms => res.json(foundPlatforms))
       .catch(err => {
-        console.log(err)
+        console.log(err);
         res.sendStatus(400);
       });
   },
 
   // hit api and update database.
   updateDB: (req, res) => {
-      res.send('NOT IMPLEMENTED: updatedb');
+    const time = req.query.time || 4*60*60
+    data.updateGamesDB(time)
+      .then(result => {
+        console.log('Updated game ids', result || 'none');
+        if (result) {
+          // res.write(`Updating ${result.length} games. It could take as long as ${result.length * 5} seconds.`);
+          return new Promise(resolve => data.updateList(result, resolve));
+        } else {
+          return new Promise(resolve => resolve([]));
+        }
+      })
+      .then(result => res.json(result))
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
 
@@ -82,34 +101,48 @@ module.exports = {
         console.log('downloaded', game);
         res.json(game);
       })
-      .catch(err => res.message(err.message).sendStatus(400));
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
   // create a game
   createGame: (req, res) => {
-      const game = new db.Game(req.body);
-      game.save()
-        .then(game => res.json(game))
-        .catch(err => res.message(err.message).sendStatus(400));
+    delete req.body._id;
+    delete req.body.theGamesDBId;
+    const game = new db.Game(req.body);
+    game.save()
+      .then(game => res.json(game))
+      .catch(err => {
+        console.log(err)
+        res.sendStatus(400)
+      });
   },
 
   // get one game for update/delete
   getGame: (req, res) => {
-    db.Game.findOne({_id: req.params.id})
+    db.Game.findOne({ _id: req.params.id })
       .then(game => res.json(game))
-      .catch(err => res.message(err.message).sendStatus(400));
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
   // update a game
   updateGame: (req, res) => {
-      db.Game.findOneAndUpdate({_id: req.params.id}, req.body, { new: true })
-        .then(game => res.json(game))
-        .catch(err => res.message(err.message).sendStatus(400));
+    db.Game.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+      .then(game => res.json(game))
+      .catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
   // delete a game
   deleteGame: (req, res) => {
-      res.send('NOT IMPLEMENTED: delete a game ',+ req.params.id);
+    res.send('NOT IMPLEMENTED: delete a game ', +req.params.id);
   },
 
 
