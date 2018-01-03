@@ -9,7 +9,7 @@
   margin-top: 10px;
   height: 100vh;
   background-color: grey;
-  background-image: url("../../utils/Shelf-dark.png");
+  background-image: url("./Shelf-dark.png");
   border-radius: 5px;
 }
 
