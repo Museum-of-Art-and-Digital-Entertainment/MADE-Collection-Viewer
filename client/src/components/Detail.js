@@ -41,7 +41,7 @@ class Detail extends Component {
         <Row className="info">
           <Col sm="4" className="col colImg">
             <img className= "boxartImg" src={this.state.game.boxartFront} alt="boxart"/>
-            <Button className="button" color="primary"><Link className="linkText" to="/">← Back</Link></Button>
+            <Link className="linkText" to="/"><Button className="button" color="primary">← Back</Button></Link>
           </Col>
           <Col sm="8"className="col">
             <article>

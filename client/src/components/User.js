@@ -148,7 +148,7 @@ class User extends Component {
             </div>
           )}
           <Row className="pageControl">
-            <Col md={{ size: 12, offset: 3 }} xs='12'>
+            <Col xs='12'>
               <PageControl
                 changePage={this.changePage}
                 incrementPage={this.incrementPage}

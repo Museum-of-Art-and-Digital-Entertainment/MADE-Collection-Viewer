@@ -2,9 +2,10 @@ import React from "react";
 import { Button, ButtonGroup } from 'reactstrap';
 import { InputGroup, InputGroupAddon, Input, InputGroupButton } from 'reactstrap';
 import { Row, Col } from 'reactstrap';
+import '../GameList/GameListItem.css';
 
 const PageControl = props => (
-		<Row>
+		<Row className="PageControlRow">
 			<Col xs='auto'>
 				<ButtonGroup>
 			    <Button onClick={props.changePage} value={1}>{'|<'}</Button>{' '}

@@ -84,3 +84,7 @@
 .pageControl {
   margin: 15px;
 }
+
+.PageControlRow {
+  justify-content: center;
+}
