@@ -1,5 +1,6 @@
 const db = require("../models");
 const request = require("request");
+const buffer = require('request').defaults({encoding: null});
 const parseString = require('xml2js').parseString;
 const moment = require('moment');
 // Controller for handling the collection 
@@ -129,7 +130,6 @@ module.exports = {
             reject(err);
           } else {
             const gameRes = result.Data.Game[0];
-            console.log(JSON.stringify(gameRes, null, 2));
             let game = {
               theGamesDBId: gameRes.id[0],
               title: gameRes.GameTitle[0].trim(),
@@ -188,10 +188,32 @@ module.exports = {
                   return db.Game.findOneAndUpdate({_id: res._id}, game, {new: true})
                 } 
               })
-              .then(res => resolve(res))
+              .then(res => {
+                this.imgLinksToBase64(res);
+                resolve(res);
+              })
               .catch(err => console.log(err));
           }
         });
+      });
+    });
+  },
+
+  imgLinksToBase64: function(game) {
+    let images = [];
+    if (game.boxartFront) images.push(game.boxartFront);
+    if (game.boxartBack) images.push(game.boxartBack);
+  },
+
+  toDataURL: function(link) {
+    return new Promise( (resolve, reject) => {
+      buffer.get(link, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          data = "data:" + response.headers["content-type"] + ";base64," + new Buffer(body).toString('base64');
+          resolve(data);
+        } else {
+          reject(error);
+        }
       });
     });
   },
