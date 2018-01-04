@@ -12,7 +12,7 @@ const makeQuery = ask => {
     if (parseInt(ask.platform)) {
       query.platformId = parseInt(ask.platform);
     } else {
-      query.platform = parseInt(ask.platform);
+      query.platform = ask.platform;
     }
   }
   if (ask.id) {
@@ -54,8 +54,7 @@ module.exports = {
     let query = makeQuery(req.query);
     const limit = parseInt(req.query.limit) || 50;
     const offset = parseInt(req.query.offset) || 0;
-    const sort = (req.query.sort) ? {
-      [req.query.sort[0]]: parseInt(req.query.sort[1]) } : { title: 1 }
+    const sort = (req.query.sort) ? { [req.query.sort[0]]: parseInt(req.query.sort[1]) } : { title: 1 };
     db.Game.find(query)
       .sort(sort)
       .skip(offset)
@@ -79,7 +78,9 @@ module.exports = {
   // get all platforms
   getPlatforms: (req, res) => {
     let query = {};
+    const sort = (req.query.sort) ? { [req.query.sort[0]]: parseInt(req.query.sort[1]) } : { alias : 1 };
     db.Platform.find(query)
+      .sort(sort)
       .then(foundPlatforms => res.json(foundPlatforms))
       .catch(err => {
         console.log(err);

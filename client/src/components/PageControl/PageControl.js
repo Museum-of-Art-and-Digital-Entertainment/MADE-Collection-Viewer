@@ -4,8 +4,8 @@ import { InputGroup, InputGroupAddon, Input, InputGroupButton } from 'reactstrap
 import { Row, Col } from 'reactstrap';
 
 const PageControl = props => (
-		<Row>
-			<Col xs='auto'>
+		<Row className="PageControlRow">
+			<Col sm='auto' xs='12'>
 				<ButtonGroup>
 			    <Button onClick={props.changePage} value={1}>{'|<'}</Button>{' '}
 			    <Button onClick={props.incrementPage} value={-1}>{'<<'}</Button>{' '}
@@ -13,7 +13,7 @@ const PageControl = props => (
 			    <Button onClick={props.changePage} value={props.lastPage}>{'>|'}</Button>
 			  </ButtonGroup>
 		  </Col>
-			<Col xs='4'>
+			<Col sm='4'>
 			  <InputGroup>
 			  		<InputGroupAddon>Page</InputGroupAddon>
 		        <Input type='number' value={props.page} onChange={props.inputHandler} name='page' style={{'textAlign': 'right', 'minWidth': '75px'}} />
