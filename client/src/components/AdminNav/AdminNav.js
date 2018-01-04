@@ -12,7 +12,7 @@ const AdminNav = props => (
 	      <NavLink className='admin-nav-link' href="/admin/game">Add Game</NavLink>
 	    </NavItem>
 	    <NavItem className='admin-nav-item nav-left'>
-	      <NavLink className='admin-nav-link-btn' href="#"><Button color='primary'>Logout</Button></NavLink>
+	      <NavLink className='admin-nav-link-btn' href="/api/admin/logout"><Button color='primary'>Logout</Button></NavLink>
 	    </NavItem>
 	  </Nav>
 	</div>
