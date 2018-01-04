@@ -37,6 +37,23 @@
   box-shadow: 0px 5px 5px rgba(68, 68, 68, 0.6);
 }
 
+.placeHolder {
+  width: 110px;
+  height: 150px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #e3e3e3;
+  box-shadow: 0px 5px 5px rgba(68, 68, 68, 0.6);
+  display: table;
+}
+
+.placeText {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 4px;
+}
+
 .game:hover {
   top: -2px;
 }
@@ -44,6 +61,7 @@
 .shelfContainer {
   position: relative;
 }
+
 .shelf {
   z-index: 1;
   border-bottom: 25px solid #29BBA6;

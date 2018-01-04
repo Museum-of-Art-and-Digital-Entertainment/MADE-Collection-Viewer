@@ -5,7 +5,6 @@ import './GameList/GameListItem.css';
 import PageControl from './PageControl';
 import { GameListItem } from "./GameList";
 import { Container, Col, Row } from 'reactstrap';
-import { Button, ButtonGroup } from 'reactstrap';
 
 class User extends Component {
   state = {
@@ -79,6 +78,13 @@ class User extends Component {
     });
   }
 
+
+  handlePageInput = event => {
+    if ((event.target.value >= 1 && event.target.value <= this.state.lastPage) || event.target.value === '') {
+      this.handleInputChange(event);
+    }
+  }
+
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get games update the gamesearch state
     event.preventDefault();
@@ -123,10 +129,9 @@ class User extends Component {
             <div className="gameList">
               {this.state.games.map((game, i) => {
                 return (
-                  <div className="imageContainer">
+                  <div className="imageContainer" key={game._id}>
                   <Col >
                   <GameListItem
-                    key={game._id}
                     title={game.title}
                     description={game.description}
                     platform={game.platform}
