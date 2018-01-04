@@ -79,20 +79,31 @@ class Admin extends Component {
 	};
 
 	componentDidMount() {
-		this.loadGames();
+		let userID = this.props.match.params.id;
+		API.getAdminUser(this.props.match.params.id)
+		.then(res => {
+			this.setState({ user: res.data._id});
+			if(this.state.user === userID){
+				this.loadGames();
+			}
+			else{
+				 window.location.assign("/admin/login");
+			}
+		})
+		.catch(err => {console.log(err);  window.location.assign("/admin/login");});
 	};
 
 	render () {
 		return (
 			<Container>
 				<AdminNav />
-				<SearchBar 
-					inputHandler={this.handleInputChange} 
-					buttonHandler={this.searchGames} 
+				<SearchBar
+					inputHandler={this.handleInputChange}
+					buttonHandler={this.searchGames}
 					platformQuery= {API.getPlatforms}
-					title={this.state.title} 
+					title={this.state.title}
 					platform={this.state.platform}
-					name='title' 
+					name='title'
 				/>
 				<Row>
 					<Col md='9' xs='12'>
@@ -106,9 +117,9 @@ class Admin extends Component {
 					</Col>
 					<Col md='3' xs='12'>
 						<div>
-							<Input 
-							type='select' 
-							onChange = {this.handleInputChange} 
+							<Input
+							type='select'
+							onChange = {this.handleInputChange}
 							name='sort'
 							value={this.state.sort}
 							style={{height:'100%'}}
@@ -120,7 +131,7 @@ class Admin extends Component {
 							<option value={'platform, -1'}>Platform Ascending</option>
 							<option value={'release, 1'}>Release Descending</option>
 							<option value={'release, -1'}>Release Ascending</option>
-						</Input>	
+						</Input>
 						</div>
 					</Col>
 				</Row>
@@ -145,4 +156,4 @@ class Admin extends Component {
 	};
 };
 
-export default Admin; 
+export default Admin;

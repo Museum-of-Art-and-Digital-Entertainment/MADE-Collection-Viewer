@@ -22,7 +22,7 @@ class Login extends Component {
                 <Container>
                   <Row>
                     <Col md="12">
-                      <a href="localhost:3001/api/admin/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+                      <a href="/api/admin/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Sign in with Google</a>
                     </Col>
                   </Row>
                 </Container>

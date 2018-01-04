@@ -30,10 +30,24 @@ const makeQuery = ask => {
 // Controller for handling the collection
 module.exports = {
 
-  index: (req, res) => {
-    res.send(req.user);
-    console.log("profile", req.user);
+  login: (req, res) => {
+   res.redirect("/admin/user/"+req.user.id);
   },
+
+  // get one user based on their id
+    getUser: (req, res) => {
+      let query = {};
+      if (req.params.id) {
+        query._id = req.params.id;
+      }
+      db.User.findOne(query)
+        .then(foundUser => res.json(foundUser))
+        .catch(err => {
+          console.log(err)
+          res.sendStatus(400);
+        });
+    },
+
 
   // get all games with or without search criteria
   getAllGames: (req, res) => {

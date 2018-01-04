@@ -16,10 +16,15 @@ export default {
 	// Download the details of a game from thegamesDB.net
 	// id is the game id parameter referencing thegamesDB.net game id
 	downloadDetails: function(id) {
-		return axios.get('/api/admin/game/download/' + id); 
+		return axios.get('/api/admin/game/download/' + id);
 	},
 
 	createGame: function(game) {
 		return axios.post('/api/admin/game/create', game);
+	},
+
+	getAdminUser: function(id) {
+		console.log("getUser",id);
+		return axios.get('/api/admin/google/login/user/'+id);
 	},
 }

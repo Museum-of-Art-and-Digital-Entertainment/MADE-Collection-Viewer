@@ -22,7 +22,7 @@ export default (
     <div>
       <Switch>
         <Route exact path="/" component={User} />
-        <Route exact path="/admin" component={Admin} />
+        <Route exact path="/admin/user/:id" component={Admin} />
         <Route exact path="/admin/game/:id?" component={UpdateGame} />
         <Route exact path="/game/:id" component={Detail} />
         <Route exact path="/games/:id" component={Detail} />

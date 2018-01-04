@@ -7,8 +7,8 @@ const controllers = require('../../controllers');
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/auth/google/callback', passport.authenticate('google', {
-  successRedirect: '/admin',
   failureRedirect: '/admin/login',
+  successRedirect: '/api/admin/google/login',
 }));
 
 router.get('/logout', function(req, res) {
@@ -17,7 +17,11 @@ router.get('/logout', function(req, res) {
 });
 
 /* GET admin home page. */
-router.get('/', controllers.admin.index);
+router.get('/google/login', controllers.admin.login);
+
+/* GET user info */
+router.get('/google/login/user/:id', controllers.admin.getUser);
+
 
 
 /* GET all games with or without fuzzy search query*/
